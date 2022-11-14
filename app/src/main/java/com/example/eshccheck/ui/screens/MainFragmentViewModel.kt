@@ -37,7 +37,10 @@ class MainFragmentViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             when (val result = fetchUseCase.allUsers()) {
                 is ResultUser.Success -> {
-                    mUsers.value = result.users.map { dataDomain ->
+
+
+                    val users1 = result.users
+                    mUsers.value = users1.map { dataDomain ->
                         mapper.mapDomainToUi(dataDomain)
                     }
                 }

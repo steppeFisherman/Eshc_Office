@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/btn_text_color_selector.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_elite.xml" value="0.1" />
+        <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_elite_logo.xml" value="0.1" />
+        <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_elite_white_background.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_history.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_holder_camera.xml" value="0.1" />
+        <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_location.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_profile.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/drawable/ic_search.xml" value="0.175" />
@@ -18,7 +21,7 @@
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/layout/fragment_main.xml" value="0.18" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/layout/fragment_splash.xml" value="0.21557971014492755" />
-        <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/layout/main_rv_item_raw.xml" value="0.33" />
+        <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/layout/main_rv_item_raw.xml" value="0.1" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/menu/fragment_main_toolbar_menu.xml" value="0.22" />
         <entry key="..\:/Users/redfo/AndroidStudioProjects/EshcCheck/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.1546875" />
       </map>

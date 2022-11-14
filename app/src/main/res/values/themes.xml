@@ -27,13 +27,34 @@
         <item name="android:background">@color/main_screen</item>
     </style>
 
+    <!-- RecyclerContainerStyle -->
+    <style name="rv_main_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/size_8</item>
+        <item name="android:layout_marginEnd">@dimen/size_8</item>
+        <item name="android:layout_marginTop">@dimen/size_4</item>
+        <item name="android:paddingTop">@dimen/size_8</item>
+        <item name="android:paddingBottom">@dimen/size_8</item>
+        <item name="android:backgroundTint">@color/rv_main_container_color_selector</item>
+        <item name="android:background">@drawable/main_rv_item_shape</item>
+    </style>
+
+    <!-- RecyclerTextViewStyle -->
+    <style name="rv_main_textView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/grey_category_textView</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.CircularBorder" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
     <style name="btn" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textColor">@drawable/btn_text_color_selector</item>
+        <item name="android:textColor">@color/btn_text_color_selector</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="cornerRadius">6dp</item>

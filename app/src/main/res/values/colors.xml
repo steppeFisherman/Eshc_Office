@@ -23,5 +23,8 @@
     <color name="grey_light">#1E000000</color>
     <color name="eliteColor">#13436b</color>
     <color name="status_bar">#FBFBFB</color>
+    <color name="deep_sky_blue">#00BFFF</color>
+    <color name="light_sky_blue">#5600BFFF</color>
+    <color name="dark_red">#800000</color>
 
 </resources>

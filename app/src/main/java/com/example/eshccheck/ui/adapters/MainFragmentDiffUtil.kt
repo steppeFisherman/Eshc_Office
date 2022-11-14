@@ -15,8 +15,5 @@ class MainFragmentDiffUtil(
         oldList[oldItemPosition].id == newList[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        when {
-            oldList[oldItemPosition] != newList[newItemPosition] -> false
-            else -> true
-        }
+        oldList[oldItemPosition] == newList[newItemPosition]
 }

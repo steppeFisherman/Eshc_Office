@@ -1,14 +1,19 @@
 package com.example.eshccheck.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.FragmentMainBinding
 import com.example.eshccheck.ui.BaseFragment
 import com.example.eshccheck.ui.adapters.MainFragmentAdapter
+import com.example.eshccheck.ui.model.DataUi
+import com.example.eshccheck.utils.showToast
 import com.example.eshccheck.utils.snackLong
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,11 +28,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = MainFragmentAdapter()
+        val adapter = MainFragmentAdapter(object : MainFragmentAdapter.Listener {
+
+            override fun chooseUser(user: DataUi) {
+                showToast(view.context, user.full_name)
+            }
+
+            override fun dial(user: DataUi) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${user.phone_operator}")
+                ContextCompat.startActivity(view.context, intent, null)
+            }
+        })
         binding.rvFragmentMain.adapter = adapter
 
         vm.users.observe(viewLifecycleOwner) { listDataUi ->
-            adapter.setData(listDataUi)
+            adapter.submitList(listDataUi)
         }
 
         vm.error.observe(viewLifecycleOwner) { errorType ->
