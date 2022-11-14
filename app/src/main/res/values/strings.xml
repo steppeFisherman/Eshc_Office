@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Eshc Check</string>
+    <string name="profile">Профиль</string>
+    <string name="history">История</string>
+    <string name="main">Главный экран</string>
+
+    <string name="http_exception_message">Что то пошло не так, ошибка сервера</string>
+    <string name="user_not_registered_exception_message">Пользователь не зарегистрирован</string>
+    <string name="database_exception_message">Что то пошло не так, ошибка базы данных</string>
+    <string name="no_connection_exception_message">Что то пошло не так, нет соединения</string>
+    <string name="generic_exception_message">Что то пошло не так</string>
+</resources>
