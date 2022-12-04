@@ -30,6 +30,7 @@
         android:id="@+id/txt_phone"
         style="@style/rv_main_textView"
         android:layout_marginEnd="@dimen/size_8"
+        android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/blue_text_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

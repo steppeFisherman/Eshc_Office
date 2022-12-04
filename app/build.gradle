@@ -73,6 +73,7 @@ dependencies {
     implementation "com.google.firebase:firebase-database:$firebase_version"
     implementation "com.google.firebase:firebase-database-ktx:$firebase_version"
     implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
@@ -98,6 +99,9 @@ dependencies {
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
     // Input Mask
     implementation 'com.github.RedMadRobot:input-mask-android:6.1.0'
+    //GoogleMaps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation "com.google.android.gms:play-services-location:21.0.1"
 }
 
 kapt {

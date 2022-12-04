@@ -26,5 +26,7 @@
     <color name="deep_sky_blue">#00BFFF</color>
     <color name="light_sky_blue">#5600BFFF</color>
     <color name="dark_red">#800000</color>
+    <color name="yellow">#FFFF00</color>
+
 
 </resources>

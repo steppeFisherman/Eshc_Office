@@ -2,6 +2,7 @@ package com.example.eshccheck.ui.model
 
 import com.example.eshccheck.domain.model.DataDomain
 import com.example.eshccheck.utils.FormatUiPhoneNumber
+import java.text.DateFormat
 
 interface MapDomainToUi {
 
@@ -14,16 +15,23 @@ interface MapDomainToUi {
         override fun mapDomainToUi(dataDomain: DataDomain): DataUi =
             DataUi(
                 id = dataDomain.id,
-                id_cache = dataDomain.id_cache,
-                full_name = dataDomain.full_name,
-                phone_user = formatUiPhoneNumber.modify(dataDomain.phone_user),
-                phone_operator = dataDomain.phone_operator,
+                idCache = dataDomain.idCache,
+                fullName = dataDomain.fullName,
+                phoneUser = formatUiPhoneNumber.modify(dataDomain.phoneUser),
+                phoneOperator = dataDomain.phoneOperator,
                 photo = dataDomain.photo,
-                time_location = dataDomain.time_location,
+                time = dataDomain.time,
+                timeLong = dataDomain.timeLong,
                 latitude = dataDomain.latitude,
                 longitude = dataDomain.longitude,
+                locationAddress = dataDomain.locationAddress,
+                homeAddress = dataDomain.homeAddress,
+                company = dataDomain.company,
                 alarm = dataDomain.alarm,
-                notify = dataDomain.notify
+                notify = dataDomain.notify,
             )
+
+        private fun longToDate(timeLong: Long) =
+            DateFormat.getDateTimeInstance().format(timeLong)
     }
 }

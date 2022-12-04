@@ -11,14 +11,18 @@ interface MapCloudToCache {
         override fun mapCloudToCache(dataCloud: DataCloud): DataCache =
             DataCache(
                 id = dataCloud.id,
-                id_cache = 0,
-                full_name = dataCloud.full_name,
-                phone_user = dataCloud.phone_user,
-                phone_operator = dataCloud.phone_operator,
+                idCache = dataCloud.idCache,
+                fullName = dataCloud.fullName,
+                phoneUser = dataCloud.phoneUser,
+                phoneOperator = dataCloud.phoneOperator,
                 photo = dataCloud.photo,
-                time_location = dataCloud.time_location,
+                time = dataCloud.time,
+                timeLong = dataCloud.timeLong,
                 latitude = dataCloud.latitude,
                 longitude = dataCloud.longitude,
+                locationAddress = dataCloud.locationAddress,
+                homeAddress = dataCloud.homeAddress,
+                company = dataCloud.company,
                 alarm = dataCloud.alarm,
                 notify = dataCloud.notify,
             )

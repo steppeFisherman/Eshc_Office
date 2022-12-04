@@ -10,16 +10,21 @@ class UsersService {
     private val listeners = mutableSetOf<UsersListener>()
 
     init {
-        users = (1..5).map {
+        users = (21..50).map {
             DataCloud(
-                id = it,
-                full_name = "",
-                phone_user = (it + 10).toString(),
-                phone_operator = "+74955802688",
+                id = it.toString(),
+                idCache = 0,
+                fullName = "",
+                phoneUser = (it + 10).toString(),
+                phoneOperator = "+74955802688",
                 photo = "",
-                time_location = "",
+                time = "",
+                timeLong = 0,
                 latitude = "",
                 longitude = "",
+                locationAddress = "",
+                homeAddress = "",
+                company = "",
                 alarm = false,
                 notify = false
             )

@@ -31,12 +31,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val adapter = MainFragmentAdapter(object : MainFragmentAdapter.Listener {
 
             override fun chooseUser(user: DataUi) {
-                showToast(view.context, user.full_name)
+                showToast(view.context, user.fullName)
             }
 
             override fun dial(user: DataUi) {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${user.phone_operator}")
+                intent.data = Uri.parse("tel:${user.phoneOperator}")
                 ContextCompat.startActivity(view.context, intent, null)
             }
         })
@@ -56,5 +56,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 5 -> view.snackLong(R.string.generic_exception_message)
             }
         }
+    }
+
+    interface PermissionHandle {
+        fun check()
     }
 }

@@ -4,10 +4,7 @@ import android.content.Context
 import com.example.eshccheck.data.model.MapCacheToDomain
 import com.example.eshccheck.data.model.MapCloudToCache
 import com.example.eshccheck.data.model.MapCloudToDomain
-import com.example.eshccheck.data.repository.CloudSource
-import com.example.eshccheck.data.repository.ExceptionHandle
-import com.example.eshccheck.data.repository.RepositoryImpl
-import com.example.eshccheck.data.repository.ToDispatch
+import com.example.eshccheck.data.repository.*
 import com.example.eshccheck.data.room.AppRoomDao
 import com.example.eshccheck.data.room.AppRoomDatabase
 import com.example.eshccheck.domain.Repository
@@ -44,7 +41,6 @@ class DataModule {
         MapCloudToDomain.Base()
 
 
-
     @Provides
     fun provideDispatchers(): ToDispatch = ToDispatch.Base()
 
@@ -70,12 +66,27 @@ class DataModule {
     )
 
     @Provides
+    fun provideCacheSource(
+        appDao: AppRoomDao,
+        mapCacheToDomain: MapCacheToDomain,
+        dispatchers: ToDispatch,
+        exceptionHandle: ExceptionHandle
+    ): CacheSource = CacheSource.Base(
+        appDao = appDao,
+        mapperCacheToDomain = mapCacheToDomain,
+        dispatchers = dispatchers,
+        exceptionHandle = exceptionHandle
+    )
+
+    @Provides
     @Singleton
     fun provideRepository(
         cloudSource: CloudSource,
+        cacheSource: CacheSource,
         exceptionHandle: ExceptionHandle
     ): Repository = RepositoryImpl(
         cloudSource = cloudSource,
+        cacheSource = cacheSource,
         exceptionHandle = exceptionHandle
     )
 }

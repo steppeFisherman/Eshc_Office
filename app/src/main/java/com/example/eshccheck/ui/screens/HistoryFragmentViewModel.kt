@@ -1,9 +1,6 @@
 package com.example.eshccheck.ui.screens
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.eshccheck.domain.FetchUseCase
 import com.example.eshccheck.domain.model.ErrorType
 import com.example.eshccheck.domain.model.ResultUser
@@ -14,33 +11,32 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 @HiltViewModel
-class MainFragmentViewModel @Inject constructor(
+class HistoryFragmentViewModel @Inject constructor(
     private val fetchUseCase: FetchUseCase,
     private val mapper: MapDomainToUi
 ) : ViewModel() {
 
     private var mUsers = MutableLiveData<List<DataUi>>()
     private var mError = MutableLiveData<ErrorType>()
-    private var mLoading = MutableLiveData<ResultUser.Loading>()
 
     val users: LiveData<List<DataUi>>
         get() = mUsers
     val error: LiveData<ErrorType>
         get() = mError
-    val loading: LiveData<ResultUser.Loading>
-        get() = mLoading
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
-    private fun fetchAllUsers() {
+    private fun fetchData() {
         viewModelScope.launch(exceptionHandler) {
-            when (val result = fetchUseCase.allUsers()) {
-                is ResultUser.SuccessList -> {
-                    val users= result.users
-                    mUsers.value = users.map { dataDomain ->
-                        mapper.mapDomainToUi(dataDomain)
-                    }
+            when (val result = fetchUseCase.fetchCached()) {
+                is ResultUser.SuccessLiveData -> {
+                    mUsers = result.usersLiveData.map { list ->
+                        list.map { dataDomain ->
+                            mapper.mapDomainToUi(dataDomain)
+                        }
+                    } as MutableLiveData<List<DataUi>>
                 }
                 is ResultUser.Fail -> mError.value = result.errorType
                 else -> {}
@@ -48,15 +44,7 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
-
-    private fun listenUsers() {
-        viewModelScope.launch(exceptionHandler) {
-            fetchUseCase.listenUsers()
-        }
-    }
-
     init {
-        fetchAllUsers()
-        listenUsers()
+        fetchData()
     }
 }

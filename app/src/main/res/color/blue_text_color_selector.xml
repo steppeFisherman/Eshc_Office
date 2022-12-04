@@ -3,6 +3,6 @@
 
     <item android:color="@color/deep_sky_blue" android:state_pressed="true" />
     <item android:color="@color/deep_sky_blue" android:state_selected="true" />
-    <item android:color="@color/grey_category_textView" />
+    <item android:color="@color/black_textView" />
 
 </selector>

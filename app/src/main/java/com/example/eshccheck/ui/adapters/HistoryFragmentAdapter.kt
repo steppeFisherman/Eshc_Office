@@ -3,31 +3,28 @@ package com.example.eshccheck.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.MainRvItemRawBinding
+import com.example.eshccheck.databinding.HistoryItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
 
-class MainFragmentAdapter(private val listener: Listener) :
-    ListAdapter<DataUi, MainFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
+class HistoryFragmentAdapter(private val listener: Listener) :
+    ListAdapter<DataUi, HistoryFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
 
     override fun onClick(v: View) {
         val user = v.tag as DataUi
         when (v.id) {
-            R.id.txt_phone -> listener.dial(user)
-            R.id.container -> listener.chooseUser(user)
+            R.id.btn_location -> listener.toLocation(user)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val view = MainRvItemRawBinding
+        val view = HistoryItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        view.txtPhone.setOnClickListener(this)
-        view.container.setOnClickListener(this)
+        view.btnLocation.setOnClickListener(this)
 
         return MainHolder(view)
     }
@@ -37,27 +34,22 @@ class MainFragmentAdapter(private val listener: Listener) :
 
         holder.binding.apply {
             root.tag = user
-            txtPhone.tag = user
-            container.tag = user
+            btnLocation.tag = user
 
-            txtId.animation = AnimationUtils
-                .loadAnimation(holder.binding.root.context, R.anim.fade_transition_animation)
-            txtName.text = user.fullName
-            txtId.text = user.id
-            txtPhone.text = user.phoneUser
+            holder.binding.txtLocationAddress.text = user.locationAddress
+            holder.binding.txtTime.text = user.time
         }
     }
 
-    class MainHolder(val binding: MainRvItemRawBinding) : RecyclerView.ViewHolder(binding.root)
+    class MainHolder(val binding: HistoryItemRawBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface Listener {
-        fun chooseUser(user: DataUi)
-        fun dial(user: DataUi)
+        fun toLocation(user: DataUi)
     }
 
     object ItemCallback : DiffUtil.ItemCallback<DataUi>() {
         override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.time == newItem.time
         }
 
         override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
