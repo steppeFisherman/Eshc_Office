@@ -1,5 +1,9 @@
 package com.example.eshccheck.data.model.cloudModel
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class DataCloud(
     val id: String = "",
     val idCache: Int = 0,
@@ -16,4 +20,4 @@ data class DataCloud(
     val company: String = "",
     val alarm: Boolean = false,
     val notify: Boolean = false
-)
+): Parcelable

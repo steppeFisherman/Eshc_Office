@@ -11,48 +11,24 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 @HiltViewModel
-class MainFragmentViewModel @Inject constructor(
-    private val fetchUseCase: FetchUseCase,
-    private val mapper: MapDomainToUi
+class AlarmFragmentViewModel @Inject constructor (
+private val fetchUseCase: FetchUseCase,
+private val mapper : MapDomainToUi
 ) : ViewModel() {
 
-    private var mUsers = MutableLiveData<List<DataUi>>()
     private var mUsersAlarmed = MutableLiveData<List<DataUi>>()
     private var mError = MutableLiveData<ErrorType>()
-    private var mLoading = MutableLiveData<ResultUser.Loading>()
 
-    val users: LiveData<List<DataUi>>
-        get() = mUsers
     val usersAlarmed: LiveData<List<DataUi>>
         get() = mUsersAlarmed
     val error: LiveData<ErrorType>
         get() = mError
-    val loading: LiveData<ResultUser.Loading>
-        get() = mLoading
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
-    private fun fetchAllUsers() {
-        viewModelScope.launch(exceptionHandler) {
-            when (val result = fetchUseCase.allUsers()) {
-                is ResultUser.SuccessList -> {
-                    val users = result.users
-                    mUsers.value = users.map { dataDomain ->
-                        mapper.mapDomainToUi(dataDomain)
-                    }
-                }
-                is ResultUser.Fail -> mError.value = result.errorType
-                else -> {}
-            }
-        }
-    }
-
-    private fun listenUsers() {
-        viewModelScope.launch(exceptionHandler) { fetchUseCase.listenUsers() }
-    }
-
-    private fun listenAlarm() {
+    private fun fetchData() {
         viewModelScope.launch(exceptionHandler) {
             when (val result = fetchUseCase.fetchAlarmed()) {
                 is ResultUser.SuccessLiveData -> {
@@ -69,8 +45,6 @@ class MainFragmentViewModel @Inject constructor(
     }
 
     init {
-        fetchAllUsers()
-        listenUsers()
-        listenAlarm()
+        fetchData()
     }
 }

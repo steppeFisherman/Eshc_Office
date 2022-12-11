@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.EshcCheck" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/dark_red</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -31,8 +31,8 @@
     <style name="rv_main_container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/size_8</item>
-        <item name="android:layout_marginEnd">@dimen/size_8</item>
+        <item name="android:layout_marginStart">@dimen/size_10</item>
+        <item name="android:layout_marginEnd">@dimen/size_10</item>
         <item name="android:layout_marginTop">@dimen/size_4</item>
         <item name="android:paddingTop">@dimen/size_8</item>
         <item name="android:paddingBottom">@dimen/size_8</item>
@@ -55,9 +55,22 @@
 
     <style name="btn" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">@color/btn_text_color_selector</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
         <item name="cornerRadius">6dp</item>
     </style>
 
+    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_10dp</item>
+    </style>
+
+    <style name="AppMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:backgroundTint">@color/button_disabled</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_16dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

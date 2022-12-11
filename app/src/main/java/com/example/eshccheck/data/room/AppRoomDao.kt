@@ -13,6 +13,9 @@ interface AppRoomDao {
     @Query("SELECT * FROM item_table")
     fun fetchAllUsers(): LiveData<List<DataCache>>
 
+    @Query("SELECT * FROM item_table WHERE alarm = :alarm")
+    fun fetchAlarmed(alarm: Boolean): LiveData<List<DataCache>>
+
     @Query("SELECT * FROM item_table")
     suspend fun fetchAllItemsBySuspend(): List<DataCache>
 

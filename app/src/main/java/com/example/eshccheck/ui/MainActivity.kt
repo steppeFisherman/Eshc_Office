@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,9 +21,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshccheck.R
+import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMainBinding
 import com.example.eshccheck.ui.screens.MainFragment
-import com.example.eshccheck.utils.*
+import com.example.eshccheck.utils.NODE_USERS
+import com.example.eshccheck.utils.REF_DATABASE_ROOT
+import com.example.eshccheck.utils.SnapShotChildListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
@@ -36,8 +41,11 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
     private lateinit var destinationChangedListener:
             NavController.OnDestinationChangedListener
     private lateinit var bottomNavigationView: BottomNavigationView
+
+//    private lateinit var player: MediaPlayer
     private lateinit var preferences: SharedPreferences
     private var firstTimeUser = false
+    private val viewModel by viewModels<MainActivityViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val requestLocationPermissionsLauncher = registerForActivityResult(
@@ -72,6 +80,7 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         )
 
         initialise()
+//        observe()
 //        usersService.addListener(usersListener)
 //        createUser()
     }
@@ -90,7 +99,12 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         navControllerMain = navHostFragment.navController
         bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setupWithNavController(navControllerMain)
+//        player = MediaPlayer.create(this, R.raw.alarm)
 
+//        player.setOnPreparedListener {
+//            it.start()
+//        }
+//        player.start()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("AAA", "Fetching FCM registration token failed", task.exception)
@@ -103,9 +117,49 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+//        REF_DATABASE_ROOT.child(NODE_USERS)
+//            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
+//                if (dataSnapshot.exists()) {
+//                    val dataCloud = dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()
+//                    when (dataCloud.alarm) {
+//                        true -> {
+//                            player.start()
+//                        }
+//                        false -> {
+//                            player.seekTo(0)
+//                            player.pause()
+//                        }
+//                    }
+//                }
+//            })
+    }
+
+    private fun observe() {
+
+//        REF_DATABASE_ROOT.child(NODE_USERS)
+//            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
+//                if (dataSnapshot.exists()) {
+//                    val dataCloud = dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()
+//                    if (dataCloud.alarm) {
+//                        player.start()
+//                        val bundle = bundleOf("dataCloud" to dataCloud)
+//                        navControllerMain.navigate(R.id.alarmFragment, bundle)
+//                    }
+//                }
+//            })
+
+
+//       viewModel.user.observe(this){ dataUi ->
+//                if (dataUi.alarm) {
+//                    player.start()
+//                }
+//       }
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun onGotLocationPermissionsResult(grantResults: Map<String, Boolean>) {
-
         if (grantResults.entries.all { it.value }) {
 //            onLocationPermissionsGranted()
         } else {
@@ -119,7 +173,6 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
     }
 
     private fun askUserForOpeningAppSettings() {
-
         val appSettingsIntent = Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             Uri.fromParts("package", packageName, null)
@@ -156,7 +209,6 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
             )
         )
     }
-
 
 
 //    val usersListener: UsersListener = {

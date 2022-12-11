@@ -33,6 +33,7 @@ interface CloudSource {
         private val scope = CoroutineScope(Job() + exceptionHandler)
 
         private lateinit var result: ResultUser
+        private lateinit var resultUser: ResultUser
 
         override suspend fun allUsers(): ResultUser {
             REF_DATABASE_ROOT.child(NODE_USERS).get()
@@ -67,3 +68,4 @@ interface CloudSource {
         }
     }
 }
+

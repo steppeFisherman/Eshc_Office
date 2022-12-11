@@ -2,16 +2,15 @@ package com.example.eshccheck.ui.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.FragmentHistoryBinding
+import com.example.eshccheck.databinding.FragmentAlarmBinding
 import com.example.eshccheck.map.MapsActivity
 import com.example.eshccheck.ui.BaseFragment
-import com.example.eshccheck.ui.adapters.HistoryFragmentAdapter
+import com.example.eshccheck.ui.adapters.AlarmFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.snackLong
 import com.example.eshccheck.utils.snowSnackIndefiniteTop
@@ -20,19 +19,25 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
+class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
 
-    private val vm by viewModels<HistoryFragmentViewModel>()
+    private val viewModel by viewModels<AlarmFragmentViewModel>()
     private lateinit var snack: Snackbar
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentHistoryBinding.inflate(inflater, container, false)
+        FragmentAlarmBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = arguments?.get("dataCloud")
+
+//        binding.txtName.text = args.fullName
+//        binding.alarm.text = args.alarm.toString()
+//        binding.txtId.text = args.id
+
         snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
 
-        val adapter = HistoryFragmentAdapter(object : HistoryFragmentAdapter.Listener {
+        val adapter = AlarmFragmentAdapter(object : AlarmFragmentAdapter.Listener {
             override fun toLocation(user: DataUi) {
                 val intent = Intent(view.context, MapsActivity::class.java)
                 intent.putExtra("user", user)
@@ -40,9 +45,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             }
         })
 
-        binding.historyFragmentRv.adapter = adapter
+        binding.alarmFragmentRv.adapter = adapter
 
-        vm.users.observe(viewLifecycleOwner) { listDataUi ->
+        viewModel.usersAlarmed.observe(viewLifecycleOwner) { listDataUi ->
             if (listDataUi.isNullOrEmpty()) binding.progressBar.visible(true)
             else {
                 adapter.submitList(listDataUi.asReversed())
@@ -50,7 +55,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             }
         }
 
-        vm.error.observe(viewLifecycleOwner) {
+        viewModel.error.observe(viewLifecycleOwner) {
             when (it.ordinal) {
                 0 -> view.snackLong(R.string.no_connection_exception_message)
                 1 -> view.snackLong(R.string.database_exception_message)

@@ -9,6 +9,7 @@ import javax.inject.Inject
 interface CacheSource {
 
     fun fetchCached(): ResultUser
+    fun fetchAlarmed(): ResultUser
 //    suspend fun fetchCachedByDate(timeStart: Long, timeEnd: Long): ResultUser
 
     class Base @Inject constructor(
@@ -24,6 +25,16 @@ interface CacheSource {
                 listDataCache.map {
                     mapperCacheToDomain.mapCacheToDomain(it)
                 }
+            }
+            ResultUser.SuccessLiveData(domain)
+        } catch (e: Exception) {
+            exceptionHandle.handle(exception = e)
+        }
+
+        override fun fetchAlarmed(): ResultUser = try {
+            val users = appDao.fetchAlarmed(alarm = true)
+            val domain = users.map { listDataCache ->
+                listDataCache.map { mapperCacheToDomain.mapCacheToDomain(it) }
             }
             ResultUser.SuccessLiveData(domain)
         } catch (e: Exception) {

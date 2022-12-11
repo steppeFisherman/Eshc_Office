@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.HistoryItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
+import com.example.eshccheck.utils.visible
 
-class HistoryFragmentAdapter(private val listener: Listener) :
-    ListAdapter<DataUi, HistoryFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
+
+class AlarmFragmentAdapter(private val listener: Listener) :
+    ListAdapter<DataUi, AlarmFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
 
     override fun onClick(v: View) {
         val user = v.tag as DataUi
@@ -24,9 +26,7 @@ class HistoryFragmentAdapter(private val listener: Listener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val view = HistoryItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-
         view.btnLocation.setOnClickListener(this)
-
         return MainHolder(view)
     }
 
@@ -47,7 +47,9 @@ class HistoryFragmentAdapter(private val listener: Listener) :
         }
     }
 
-    class MainHolder(val binding: HistoryItemRawBinding) : RecyclerView.ViewHolder(binding.root)
+    class MainHolder(val binding: HistoryItemRawBinding) : RecyclerView.ViewHolder(binding.root) {
+        val imgAlarm = binding.imgAlarm.visible(true)
+    }
 
     interface Listener {
         fun toLocation(user: DataUi)

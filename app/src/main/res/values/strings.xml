@@ -19,4 +19,7 @@
     <string name="home_address">Домашний адрес: %s</string>
     <string name="your_id">Ваш ID: %s</string>
     <string name="yes">да</string>
+    <string name="alarm">Alarm</string>
+    <string name="comments">Комментарий</string>
+    <string name="save">Сохранить</string>
 </resources>
