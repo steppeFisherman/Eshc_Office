@@ -1,113 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parentContainer"
-    android:background="@color/main_screen"
-    >
-    <TextView
-        android:id="@+id/txt_id"
-        style="@style/rv_main_textView"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="id" />
-
-    <TextView
-        android:id="@+id/txt_time"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:fontFamily="cursive"
-        android:textColor="@color/black_textView"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Time" />
-
-    <TextView
-        android:id="@+id/txt_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_8dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/black_textView"
-        android:textSize="@dimen/text_size_16"
-        app:layout_constraintEnd_toStartOf="@id/txt_phone"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@id/txt_time"
-        tools:text="Title" />
-
-    <TextView
-        android:id="@+id/txt_phone"
-        style="@style/rv_main_textView"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/blue_text_color_selector"
-        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-        app:layout_constraintTop_toTopOf="@id/txt_name"
-        tools:text="phone" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_comments"
-        style="@style/textInputLayout"
-        android:hint="@string/comments"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-        app:layout_constraintTop_toBottomOf="@id/txt_name"
-        app:layout_constraintBottom_toTopOf="@+id/btn_save_comments"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_comment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="text|textMultiLine"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save_comments"
-        style="@style/AppMaterialButton"
-        android:text="@string/save"
-        android:enabled="false"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        />
-
-
-    <fragment
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:id="@+id/map"
-    tools:context="com.example.eshccheck.map.MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/topGuideline"
     app:layout_constraintBottom_toBottomOf="parent"
-    />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/topGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context="com.example.eshccheck.map.MapsActivity" />

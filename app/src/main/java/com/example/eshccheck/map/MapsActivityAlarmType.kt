@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.ActivityMapsBinding
-import com.example.eshccheck.ui.model.DataUi
+import com.example.eshccheck.data.model.cloudModel.DataCloud
+import com.example.eshccheck.databinding.ActivityMapsAlarmTypeBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,12 +17,13 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
 
-    private lateinit var binding: ActivityMapsBinding
+    private lateinit var binding: ActivityMapsAlarmTypeBinding
     private lateinit var mMap: GoogleMap
     private lateinit var geoCoder: Geocoder
-    private lateinit var user: DataUi
+    private lateinit var user: DataCloud
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +33,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
          */
         WindowInsetsControllerCompat(window, window.decorView)
             .isAppearanceLightStatusBars = true
-        binding = ActivityMapsBinding.inflate(layoutInflater)
+        binding = ActivityMapsAlarmTypeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         geoCoder = Geocoder(this, Locale.getDefault())
-        val bundle = intent.extras?.getParcelable<DataUi>("user")
-        if (bundle != null) user = bundle
+        val bundle = intent.extras?.get("dataCloud")
+
+        if (bundle != null) user = bundle as DataCloud
+        binding.txtId.text = user.id
+        binding.txtTime.text = user.time
+        binding.txtName.text = user.fullName
+        binding.txtPhone.text = user.phoneUser
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
