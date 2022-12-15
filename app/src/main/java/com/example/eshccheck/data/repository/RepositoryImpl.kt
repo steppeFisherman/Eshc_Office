@@ -25,9 +25,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override val usersCached: ResultUser
+    override val usersLocation: ResultUser
         get() = try {
-            cacheSource.fetchCached()
+            cacheSource.fetchLocation()
         } catch (e: Exception) {
             exceptionHandle.handle(exception = e)
         }

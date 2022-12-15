@@ -2,12 +2,17 @@ package com.example.eshccheck.map
 
 import android.annotation.SuppressLint
 import android.location.Geocoder
+import android.media.MediaPlayer
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.widget.addTextChangedListener
 import com.example.eshccheck.R
 import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMapsAlarmTypeBinding
+import com.example.eshccheck.utils.AlarmHandle
+import com.example.eshccheck.utils.TextWatcher
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,6 +29,8 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var mMap: GoogleMap
     private lateinit var geoCoder: Geocoder
     private lateinit var user: DataCloud
+    private lateinit var alarmHandle: AlarmHandle
+    private lateinit var player: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +43,30 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
         binding = ActivityMapsAlarmTypeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        player = MediaPlayer.create(this, R.raw.alarm)
+        player.start()
+
         geoCoder = Geocoder(this, Locale.getDefault())
         val bundle = intent.extras?.get("dataCloud")
+
 
         if (bundle != null) user = bundle as DataCloud
         binding.txtId.text = user.id
         binding.txtTime.text = user.time
         binding.txtName.text = user.fullName
         binding.txtPhone.text = user.phoneUser
+        binding.btnSoundOff.setOnClickListener {
+            player.seekTo(0)
+            player.pause()
+            it.isEnabled = false
+        }
+
+        binding.editTextComment.addTextChangedListener(TextWatcher { textChanged ->
+            if (textChanged?.isNotBlank() == true){
+                binding.btnSaveComments.isEnabled = true
+
+            } else binding.btnSaveComments.isEnabled = false
+        })
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -84,5 +107,18 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
     }
 
     override fun onMarkerClick(p0: Marker) = false
+
+    override fun onBackPressed() {
+        if (binding.editTextComment.text?.isBlank() == true){
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.comments_not_added))
+                .setMessage("Добавить?")
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    binding.editTextComment.requestFocus()
+                }
+                .create()
+                .show()
+        }
+    }
 }
 

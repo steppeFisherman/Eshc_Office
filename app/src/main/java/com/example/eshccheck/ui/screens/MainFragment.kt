@@ -2,7 +2,6 @@ package com.example.eshccheck.ui.screens
 
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,12 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val vm by viewModels<MainFragmentViewModel>()
-    private lateinit var player: MediaPlayer
-    private var alarmHandle = AlarmHandle.Base()
+    private lateinit var alarmHandle: AlarmHandle
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        player = MediaPlayer.create(context, R.raw.alarm)
+        alarmHandle = AlarmHandle.Base(context)
     }
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -71,7 +69,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         REF_DATABASE_ROOT.child(NODE_USERS)
             .addChildEventListener(SnapShotChildListener { dataSnapshot ->
                 if (dataSnapshot.exists()) {
-                    alarmHandle.handle(requireContext(), dataSnapshot, player)
+                    alarmHandle.handle(dataSnapshot)
                 }
             })
     }

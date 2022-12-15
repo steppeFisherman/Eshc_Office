@@ -67,13 +67,22 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sound_off"
+        style="@style/AppMaterialButton"
+        android:text="@string/sound_off"
+        android:layout_marginEnd="@dimen/margin_4dp"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toStartOf="@id/btn_save_comments"
+        app:layout_constraintStart_toStartOf="@id/leftGuideline" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save_comments"
         style="@style/AppMaterialButton"
         android:enabled="false"
         android:text="@string/save"
         app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline" />
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"

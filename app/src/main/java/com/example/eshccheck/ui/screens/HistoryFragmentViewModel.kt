@@ -30,7 +30,7 @@ class HistoryFragmentViewModel @Inject constructor(
 
     private fun fetchData() {
         viewModelScope.launch(exceptionHandler) {
-            when (val result = fetchUseCase.fetchCached()) {
+            when (val result = fetchUseCase.fetchLocation()) {
                 is ResultUser.SuccessLiveData -> {
                     mUsers = result.usersLiveData.map { list ->
                         list.map { dataDomain ->

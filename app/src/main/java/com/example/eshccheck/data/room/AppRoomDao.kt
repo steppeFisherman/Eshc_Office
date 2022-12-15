@@ -11,10 +11,10 @@ import com.example.eshccheck.data.model.cacheModel.DataCache
 interface AppRoomDao {
 
     @Query("SELECT * FROM item_table")
-    fun fetchAllUsers(): LiveData<List<DataCache>>
+    fun fetchAllUsersLocation(): LiveData<List<DataCache>>
 
     @Query("SELECT * FROM item_table WHERE alarm = :alarm")
-    fun fetchAlarmed(alarm: Boolean): LiveData<List<DataCache>>
+    fun fetchAllUsers(alarm: Boolean): LiveData<List<DataCache>>
 
     @Query("SELECT * FROM item_table")
     suspend fun fetchAllItemsBySuspend(): List<DataCache>
