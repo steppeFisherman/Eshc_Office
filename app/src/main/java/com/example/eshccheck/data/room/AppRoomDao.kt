@@ -10,8 +10,8 @@ import com.example.eshccheck.data.model.cacheModel.DataCache
 @Dao
 interface AppRoomDao {
 
-    @Query("SELECT * FROM item_table")
-    fun fetchAllUsersLocation(): LiveData<List<DataCache>>
+    @Query("SELECT * FROM item_table WHERE locationFlagOnly = :locationFlagOnly AND alarm = :alarm")
+    fun fetchAllUsersLocation(locationFlagOnly: Boolean, alarm: Boolean): LiveData<List<DataCache>>
 
     @Query("SELECT * FROM item_table WHERE alarm = :alarm")
     fun fetchAllUsers(alarm: Boolean): LiveData<List<DataCache>>

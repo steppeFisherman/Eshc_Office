@@ -20,7 +20,7 @@ interface CacheSource {
     ) : CacheSource {
 
         override fun fetchLocation(): ResultUser = try {
-            val users = appDao.fetchAllUsers(alarm = false)
+            val users = appDao.fetchAllUsersLocation(locationFlagOnly = true, false)
             val domain = users.map { listDataCache ->
                 listDataCache.map {
                     mapperCacheToDomain.mapCacheToDomain(it)

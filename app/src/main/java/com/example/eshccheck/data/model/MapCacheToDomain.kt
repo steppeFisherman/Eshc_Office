@@ -25,6 +25,8 @@ interface MapCacheToDomain {
                 company = dataCache.company,
                 alarm = dataCache.alarm,
                 notify = dataCache.notify,
+                locationFlagOnly = dataCache.locationFlagOnly,
+                comment = dataCache.comment
             )
     }
 }

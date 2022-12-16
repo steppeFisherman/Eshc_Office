@@ -26,6 +26,8 @@ interface MapCloudToDomain {
                 company = dataCloud.company,
                 alarm = dataCloud.alarm,
                 notify = dataCloud.notify,
+                locationFlagOnly = dataCloud.locationFlagOnly,
+                comment = dataCloud.comment
             )
     }
 }

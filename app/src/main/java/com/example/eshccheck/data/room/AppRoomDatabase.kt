@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.eshccheck.data.model.cacheModel.DataCache
 
-@Database(entities = [DataCache::class], version = 1, exportSchema = false)
+@Database(entities = [DataCache::class], version = 2, exportSchema = false)
 abstract class AppRoomDatabase : RoomDatabase() {
 
     abstract fun getAppRoomDao(): AppRoomDao
@@ -22,7 +22,8 @@ abstract class AppRoomDatabase : RoomDatabase() {
                     context,
                     AppRoomDatabase::class.java,
                     "database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 database as AppRoomDatabase
             } else database as AppRoomDatabase
         }

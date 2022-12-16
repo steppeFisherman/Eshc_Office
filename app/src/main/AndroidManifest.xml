@@ -43,7 +43,8 @@
         </activity>
 
         <activity android:name=".map.MapsActivity" />
-        <activity android:name=".map.MapsActivityAlarmType" />
+        <activity android:name=".map.MapsActivityAlarmType"
+            android:launchMode="singleTask"/>
 
         <service
             android:name=".service.MyFirebaseMessagingService"

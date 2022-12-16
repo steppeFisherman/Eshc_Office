@@ -11,8 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import com.example.eshccheck.R
 import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMapsAlarmTypeBinding
-import com.example.eshccheck.utils.AlarmHandle
-import com.example.eshccheck.utils.TextWatcher
+import com.example.eshccheck.utils.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
@@ -62,11 +62,19 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
         }
 
         binding.editTextComment.addTextChangedListener(TextWatcher { textChanged ->
-            if (textChanged?.isNotBlank() == true){
+            if (textChanged?.isNotBlank() == true) {
                 binding.btnSaveComments.isEnabled = true
-
             } else binding.btnSaveComments.isEnabled = false
         })
+
+        binding.btnSaveComments.setOnClickListener {
+            val map = mutableMapOf<String, Any>()
+            map[CHILD_ALARM] = false
+            map[CHILD_LOCATION_FLAG_ONLY] = false
+            map[CHILD_COMMENT] = binding.editTextComment.text.toString()
+            REF_DATABASE_ROOT.child(NODE_USERS).child(user.id).updateChildren(map)
+            onBackPressed()
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -118,7 +126,8 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
                 }
                 .create()
                 .show()
-        }
+        } else super.onBackPressed()
     }
+
 }
 
