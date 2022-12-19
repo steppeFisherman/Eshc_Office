@@ -10,6 +10,7 @@ interface CacheSource {
 
     fun fetchLocation(): ResultUser
     fun fetchAlarmed(): ResultUser
+    fun fetchUserById(id: String): ResultUser
 //    suspend fun fetchCachedByDate(timeStart: Long, timeEnd: Long): ResultUser
 
     class Base @Inject constructor(
@@ -33,6 +34,16 @@ interface CacheSource {
 
         override fun fetchAlarmed(): ResultUser = try {
             val users = appDao.fetchAllUsers(alarm = true)
+            val domain = users.map { listDataCache ->
+                listDataCache.map { mapperCacheToDomain.mapCacheToDomain(it) }
+            }
+            ResultUser.SuccessLiveData(domain)
+        } catch (e: Exception) {
+            exceptionHandle.handle(exception = e)
+        }
+
+        override fun fetchUserById(id: String): ResultUser = try {
+            val users = appDao.fetchUserById(id)
             val domain = users.map { listDataCache ->
                 listDataCache.map { mapperCacheToDomain.mapCacheToDomain(it) }
             }

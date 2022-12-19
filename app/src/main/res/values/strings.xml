@@ -3,6 +3,8 @@
     <string name="profile">Профиль</string>
     <string name="history">История</string>
     <string name="main">Главный экран</string>
+    <string name="location">Местоположение</string>
+    <string name="alarms">Тревоги</string>
 
     <string name="http_exception_message">Что то пошло не так, ошибка сервера</string>
     <string name="user_not_registered_exception_message">Пользователь не зарегистрирован</string>
@@ -24,4 +26,6 @@
     <string name="save">Сохранить</string>
     <string name="sound_off">выключить звук</string>
     <string name="comments_not_added">Вы не добавили комментарий</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

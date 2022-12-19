@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.FragmentAlarmBinding
+import com.example.eshccheck.databinding.FragmentLocationBinding
 import com.example.eshccheck.map.MapsActivity
 import com.example.eshccheck.ui.BaseFragment
-import com.example.eshccheck.ui.adapters.AlarmFragmentAdapter
+import com.example.eshccheck.ui.adapters.LocationFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.snackLong
 import com.example.eshccheck.utils.snowSnackIndefiniteTop
@@ -21,22 +22,21 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
+class LocationFragment : BaseFragment<FragmentLocationBinding>() {
 
-    private val viewModel by viewModels<AlarmFragmentViewModel>()
+    private val vm by viewModels<LocationFragmentViewModel>()
     private lateinit var snack: Snackbar
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentAlarmBinding.inflate(inflater, container, false)
+        FragmentLocationBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragmentAlarmToolbar.setupWithNavController(findNavController())
-        binding.fragmentAlarmToolbar.title = resources.getString(R.string.alarms)
-
         snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        binding.fragmentLocationToolbar.setupWithNavController(findNavController())
+        binding.fragmentLocationToolbar.title = resources.getString(R.string.location)
 
-        val adapter = AlarmFragmentAdapter(object : AlarmFragmentAdapter.Listener {
+        val adapter = LocationFragmentAdapter(object : LocationFragmentAdapter.Listener {
             override fun toLocation(user: DataUi) {
                 val intent = Intent(view.context, MapsActivity::class.java)
                 intent.putExtra("user", user)
@@ -44,17 +44,17 @@ class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
             }
         })
 
-        binding.alarmFragmentRv.adapter = adapter
+        binding.locationFragmentRv.adapter = adapter
 
-        viewModel.usersAlarmed.observe(viewLifecycleOwner) { listDataUi ->
-            if (listDataUi.isNullOrEmpty()) binding.progressBarAlarm.visible(true)
+        vm.users.observe(viewLifecycleOwner) { listDataUi ->
+            if (listDataUi.isNullOrEmpty()) binding.progressBarLocation.visible(true)
             else {
                 adapter.submitList(listDataUi.asReversed())
-                binding.progressBarAlarm.visible(false)
+                binding.progressBarLocation.visible(false)
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        vm.error.observe(viewLifecycleOwner) {
             when (it.ordinal) {
                 0 -> view.snackLong(R.string.no_connection_exception_message)
                 1 -> view.snackLong(R.string.database_exception_message)

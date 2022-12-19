@@ -7,4 +7,5 @@ interface Repository {
     suspend fun listenUsers()
     val usersLocation: ResultUser
     val fetchAlarmed: ResultUser
+    fun fetchUserById(id: String): ResultUser
 }

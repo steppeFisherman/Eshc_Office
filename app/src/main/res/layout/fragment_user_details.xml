@@ -4,34 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.AlarmFragment">
+    tools:context=".ui.screens.UserDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragmentAlarm_toolbar"
+        android:id="@+id/fragmentUser_toolbar"
         style="@style/toolBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/fragment_alarm_toolbar_menu" />
+        app:menu="@menu/fragment_user_details_toolbar_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/alarm_fragment_rv"
-        android:layout_width="@dimen/size_0"
-        android:layout_height="@dimen/size_0"
+        android:id="@+id/user_details_fragment_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentAlarm_toolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentUser_toolbar" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar_alarm"
+        android:id="@+id/progress_bar_user_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:indicatorColor="@color/deep_sky_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

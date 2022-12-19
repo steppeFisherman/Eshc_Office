@@ -4,25 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.MainFragment">
+    tools:context=".ui.screens.LocationFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragmentMain_toolbar"
+        android:id="@+id/fragmentLocation_toolbar"
         style="@style/toolBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        app:menu="@menu/fragment_main_toolbar_menu" />
+        app:menu="@menu/fragment_location_toolbar_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFragmentMain"
+        android:id="@+id/location_fragment_rv"
         android:layout_width="@dimen/size_0"
         android:layout_height="@dimen/size_0"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentMain_toolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentLocation_toolbar" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/deep_sky_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

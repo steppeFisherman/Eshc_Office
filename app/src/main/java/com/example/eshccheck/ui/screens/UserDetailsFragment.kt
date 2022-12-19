@@ -2,16 +2,17 @@ package com.example.eshccheck.ui.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.FragmentHistoryBinding
+import com.example.eshccheck.databinding.FragmentUserDetailsBinding
 import com.example.eshccheck.map.MapsActivity
 import com.example.eshccheck.ui.BaseFragment
-import com.example.eshccheck.ui.adapters.HistoryFragmentAdapter
+import com.example.eshccheck.ui.adapters.AlarmFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.snackLong
 import com.example.eshccheck.utils.snowSnackIndefiniteTop
@@ -20,19 +21,25 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
+class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding>() {
 
-    private val vm by viewModels<HistoryFragmentViewModel>()
+    private val vm by viewModels<UserDetailsViewModel>()
     private lateinit var snack: Snackbar
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentHistoryBinding.inflate(inflater, container, false)
+        FragmentUserDetailsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
 
-        val adapter = HistoryFragmentAdapter(object : HistoryFragmentAdapter.Listener {
+        snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        val user = arguments?.get("userDetails") as DataUi
+        binding.fragmentUserToolbar.setupWithNavController(findNavController())
+        binding.fragmentUserToolbar.title = user.fullName
+
+        vm.fetchUserById(user.id)
+
+        val adapter = AlarmFragmentAdapter(object : AlarmFragmentAdapter.Listener {
             override fun toLocation(user: DataUi) {
                 val intent = Intent(view.context, MapsActivity::class.java)
                 intent.putExtra("user", user)
@@ -40,13 +47,13 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             }
         })
 
-        binding.historyFragmentRv.adapter = adapter
+        binding.userDetailsFragmentRv.adapter = adapter
 
-        vm.users.observe(viewLifecycleOwner) { listDataUi ->
-            if (listDataUi.isNullOrEmpty()) binding.progressBar.visible(true)
+        vm.userDetails.observe(viewLifecycleOwner) { listDataUi ->
+            if (listDataUi.isNullOrEmpty()) binding.progressBarUserDetails.visible(true)
             else {
                 adapter.submitList(listDataUi.asReversed())
-                binding.progressBar.visible(false)
+                binding.progressBarUserDetails.visible(false)
             }
         }
 

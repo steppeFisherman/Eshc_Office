@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 @HiltViewModel
-class HistoryFragmentViewModel @Inject constructor(
+class LocationFragmentViewModel @Inject constructor(
     private val fetchUseCase: FetchUseCase,
     private val mapper: MapDomainToUi
 ) : ViewModel() {

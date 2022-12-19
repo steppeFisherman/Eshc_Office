@@ -4,12 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -21,14 +21,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshccheck.R
-import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMainBinding
 import com.example.eshccheck.ui.screens.MainFragment
-import com.example.eshccheck.utils.NODE_USERS
 import com.example.eshccheck.utils.REF_DATABASE_ROOT
-import com.example.eshccheck.utils.SnapShotChildListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
             NavController.OnDestinationChangedListener
     private lateinit var bottomNavigationView: BottomNavigationView
 
-//    private lateinit var player: MediaPlayer
     private lateinit var preferences: SharedPreferences
     private var firstTimeUser = false
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -79,7 +76,8 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
             )
         )
 
-        initialise()
+        setUpFireBase()
+        setUpNavController()
 //        observe()
 //        usersService.addListener(usersListener)
 //        createUser()
@@ -92,19 +90,9 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
 //            }
 //    }
 
-    private fun initialise() {
+    private fun setUpFireBase() {
         REF_DATABASE_ROOT = FirebaseDatabase.getInstance().reference
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navControllerMain = navHostFragment.navController
-        bottomNavigationView = binding.bottomNavigation
-        bottomNavigationView.setupWithNavController(navControllerMain)
-//        player = MediaPlayer.create(this, R.raw.alarm)
 
-//        player.setOnPreparedListener {
-//            it.start()
-//        }
-//        player.start()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("AAA", "Fetching FCM registration token failed", task.exception)
@@ -115,6 +103,26 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
             val token = task.result
             Log.d("AAA", "token: $token")
         })
+    }
+
+    private fun setUpNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navControllerMain = navHostFragment.navController
+        bottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setupWithNavController(navControllerMain)
+
+        destinationChangedListener =
+            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                when (destination.id) {
+                    R.id.userDetailsFragment -> {
+                        bottomNavigationView.visibility = View.GONE
+                    }
+                    R.id.mainFragment -> {
+                        bottomNavigationView.visibility = View.VISIBLE
+                    }
+                }
+            }
     }
 
     override fun onStart() {
@@ -134,6 +142,16 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
 //                    }
 //                }
 //            })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        navControllerMain.addOnDestinationChangedListener(destinationChangedListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navControllerMain.removeOnDestinationChangedListener(destinationChangedListener)
     }
 
     private fun observe() {

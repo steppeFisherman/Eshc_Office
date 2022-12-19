@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.FragmentMainBinding
 import com.example.eshccheck.ui.BaseFragment
@@ -38,6 +40,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             override fun chooseUser(user: DataUi) {
                 showToast(view.context, user.fullName)
+                val bundle = bundleOf("userDetails" to user)
+                findNavController().navigate(R.id.action_mainFragment_to_userDetailsFragment, bundle)
             }
 
             override fun dial(user: DataUi) {

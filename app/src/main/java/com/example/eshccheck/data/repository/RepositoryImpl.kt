@@ -31,10 +31,17 @@ class RepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             exceptionHandle.handle(exception = e)
         }
+
     override val fetchAlarmed: ResultUser
         get() = try {
             cacheSource.fetchAlarmed()
         } catch (e: Exception) {
             exceptionHandle.handle(exception = e)
         }
+
+    override fun fetchUserById(id: String): ResultUser = try {
+        cacheSource.fetchUserById(id = id)
+    } catch (e: Exception) {
+        exceptionHandle.handle(exception = e)
+    }
 }

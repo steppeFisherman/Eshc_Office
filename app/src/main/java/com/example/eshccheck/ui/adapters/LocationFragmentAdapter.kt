@@ -11,8 +11,8 @@ import com.example.eshccheck.R
 import com.example.eshccheck.databinding.HistoryItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
 
-class HistoryFragmentAdapter(private val listener: Listener) :
-    ListAdapter<DataUi, HistoryFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
+class LocationFragmentAdapter(private val listener: Listener) :
+    ListAdapter<DataUi, LocationFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
 
     override fun onClick(v: View) {
         val user = v.tag as DataUi
