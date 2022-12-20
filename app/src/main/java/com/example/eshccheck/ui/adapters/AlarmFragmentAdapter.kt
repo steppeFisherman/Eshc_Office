@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
+import com.example.eshccheck.databinding.HistoryCommentItemRawBinding
 import com.example.eshccheck.databinding.HistoryItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.visible
-
 
 class AlarmFragmentAdapter(private val listener: Listener) :
     ListAdapter<DataUi, AlarmFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
@@ -24,7 +24,7 @@ class AlarmFragmentAdapter(private val listener: Listener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val view = HistoryItemRawBinding
+        val view = HistoryCommentItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         view.btnLocation.setOnClickListener(this)
         return MainHolder(view)
@@ -36,6 +36,8 @@ class AlarmFragmentAdapter(private val listener: Listener) :
         holder.binding.apply {
             root.tag = user
             btnLocation.tag = user
+            val comment = holder.itemView.context
+                .getString(R.string.comments_template, user.comment)
 
             txtId.animation = AnimationUtils
                 .loadAnimation(holder.binding.root.context, R.anim.fade_transition_animation)
@@ -43,11 +45,12 @@ class AlarmFragmentAdapter(private val listener: Listener) :
             txtTime.text = user.time
             txtName.text = user.fullName
             txtPhone.text = user.phoneUser
+            txtComment.text = comment
             txtLocationAddress.text = user.locationAddress
         }
     }
 
-    class MainHolder(val binding: HistoryItemRawBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MainHolder(val binding: HistoryCommentItemRawBinding) : RecyclerView.ViewHolder(binding.root) {
         val imgAlarm = binding.imgAlarm.visible(true)
     }
 

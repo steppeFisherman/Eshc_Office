@@ -13,6 +13,7 @@ import com.example.eshccheck.databinding.FragmentUserDetailsBinding
 import com.example.eshccheck.map.MapsActivity
 import com.example.eshccheck.ui.BaseFragment
 import com.example.eshccheck.ui.adapters.AlarmFragmentAdapter
+import com.example.eshccheck.ui.adapters.UserDetailsFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.snackLong
 import com.example.eshccheck.utils.snowSnackIndefiniteTop
@@ -39,7 +40,7 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding>() {
 
         vm.fetchUserById(user.id)
 
-        val adapter = AlarmFragmentAdapter(object : AlarmFragmentAdapter.Listener {
+        val adapter = UserDetailsFragmentAdapter(object : UserDetailsFragmentAdapter.Listener {
             override fun toLocation(user: DataUi) {
                 val intent = Intent(view.context, MapsActivity::class.java)
                 intent.putExtra("user", user)

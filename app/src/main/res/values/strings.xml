@@ -23,6 +23,7 @@
     <string name="yes">да</string>
     <string name="alarm">Alarm</string>
     <string name="comments">Комментарий</string>
+    <string name="comments_template">Комментарий: %s</string>
     <string name="save">Сохранить</string>
     <string name="sound_off">выключить звук</string>
     <string name="comments_not_added">Вы не добавили комментарий</string>

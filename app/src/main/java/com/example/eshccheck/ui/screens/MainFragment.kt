@@ -39,7 +39,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val adapter = MainFragmentAdapter(object : MainFragmentAdapter.Listener {
 
             override fun chooseUser(user: DataUi) {
-                showToast(view.context, user.fullName)
                 val bundle = bundleOf("userDetails" to user)
                 findNavController().navigate(R.id.action_mainFragment_to_userDetailsFragment, bundle)
             }
