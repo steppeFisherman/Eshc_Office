@@ -1,6 +1,7 @@
 package com.example.eshccheck.ui.screens
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,8 +38,15 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>() {
         binding.fragmentLocationToolbar.title = resources.getString(R.string.location)
 
         val adapter = LocationFragmentAdapter(object : LocationFragmentAdapter.Listener {
+
+            override fun dial(user: DataUi) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${user.phoneOperator}")
+                ContextCompat.startActivity(requireContext(), intent, null)
+            }
+
             override fun toLocation(user: DataUi) {
-                val intent = Intent(view.context, MapsActivity::class.java)
+                val intent = Intent(requireContext(), MapsActivity::class.java)
                 intent.putExtra("user", user)
                 startActivity(intent)
             }

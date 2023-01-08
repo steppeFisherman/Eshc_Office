@@ -2,20 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/container_main"
     style="@style/rv_main_container">
 
     <TextView
-        android:id="@+id/txt_id"
-        style="@style/rv_main_textView"
-        android:layout_marginStart="@dimen/size_8"
+        android:id="@+id/txt_id_main"
+        style="@style/rv_main_txt_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="id" />
 
     <TextView
-        android:id="@+id/txt_name"
+        android:id="@+id/txt_name_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
@@ -27,14 +26,11 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/txt_phone"
-        style="@style/rv_main_textView"
-        android:layout_marginEnd="@dimen/size_8"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/blue_text_color_selector"
+        android:id="@+id/txt_phone_main"
+        style="@style/rv_main_txt_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txt_name"
+        app:layout_constraintTop_toTopOf="@id/txt_name_main"
         tools:text="phone" />
 
     <androidx.constraintlayout.widget.Guideline

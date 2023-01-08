@@ -4,21 +4,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.MainRvItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
+import java.util.*
 
 class MainFragmentAdapter(private val listener: Listener) :
-    ListAdapter<DataUi, MainFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
+    ListAdapter<DataUi, MainFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener{
 
     override fun onClick(v: View) {
         val user = v.tag as DataUi
         when (v.id) {
-            R.id.txt_phone -> listener.dial(user)
-            R.id.container -> listener.chooseUser(user)
+            R.id.container_main -> listener.chooseUser(user)
+            R.id.txt_phone_main -> listener.dial(user)
         }
     }
 
@@ -26,8 +29,8 @@ class MainFragmentAdapter(private val listener: Listener) :
         val view = MainRvItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        view.txtPhone.setOnClickListener(this)
-        view.container.setOnClickListener(this)
+        view.txtPhoneMain.setOnClickListener(this)
+        view.containerMain.setOnClickListener(this)
 
         return MainHolder(view)
     }
@@ -37,14 +40,14 @@ class MainFragmentAdapter(private val listener: Listener) :
 
         holder.binding.apply {
             root.tag = user
-            txtPhone.tag = user
-            container.tag = user
+            txtPhoneMain.tag = user
+            containerMain.tag = user
 
-            txtId.animation = AnimationUtils
+            txtIdMain.animation = AnimationUtils
                 .loadAnimation(holder.binding.root.context, R.anim.fade_transition_animation)
-            txtName.text = user.fullName
-            txtId.text = user.id
-            txtPhone.text = user.phoneUser
+            txtNameMain.text = user.fullName
+            txtIdMain.text = user.id
+            txtPhoneMain.text = user.phoneUser
         }
     }
 
@@ -56,12 +59,7 @@ class MainFragmentAdapter(private val listener: Listener) :
     }
 
     object ItemCallback : DiffUtil.ItemCallback<DataUi>() {
-        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi) = oldItem == newItem
     }
 }

@@ -22,23 +22,38 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.ActivityMainBinding
+import com.example.eshccheck.ui.app.App
 import com.example.eshccheck.ui.screens.MainFragment
+import com.example.eshccheck.utils.AlarmHandle
+import com.example.eshccheck.utils.NODE_USERS
 import com.example.eshccheck.utils.REF_DATABASE_ROOT
+import com.example.eshccheck.utils.SnackBuilder
+import com.example.eshccheck.utils.connectivity.ConnectivityManager
+import com.example.eshccheck.utils.firebase.UsersService
+import com.example.eshccheck.utils.listeners.SnapShotChildListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
+
+    @Inject
+    lateinit var connectivityManager: ConnectivityManager
+
+    @Inject
+    lateinit var snackTopBuilder: SnackBuilder
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navControllerMain: NavController
     private lateinit var destinationChangedListener:
             NavController.OnDestinationChangedListener
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var snack: Snackbar
 
     private lateinit var preferences: SharedPreferences
     private var firstTimeUser = false
@@ -51,10 +66,9 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
     )
 
 
-//
-//    private val usersService: UsersService
-//        get() = (applicationContext as App).usersService
-//    private val mapDataCloud = mutableMapOf<String, Any>()
+    private val usersService: UsersService
+        get() = (applicationContext as App).usersService
+    private val mapDataCloud = mutableMapOf<String, Any>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +90,7 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
             )
         )
 
+        snack = snackTopBuilder.buildSnackTopIndefinite(binding.root.rootView)
         setUpFireBase()
         setUpNavController()
 //        observe()
@@ -83,12 +98,12 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
 //        createUser()
     }
 
-//    private fun createUser() {
+    private fun createUser() {
 //        REF_DATABASE_ROOT.child(NODE_USERS).child(mapDataCloud[CHILD_ID].toString())
 //            .updateChildren(mapDataCloud)
 //            .addOnCompleteListener { task ->
 //            }
-//    }
+    }
 
     private fun setUpFireBase() {
         REF_DATABASE_ROOT = FirebaseDatabase.getInstance().reference
@@ -113,7 +128,7 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         bottomNavigationView.setupWithNavController(navControllerMain)
 
         destinationChangedListener =
-            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            NavController.OnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.userDetailsFragment -> {
                         bottomNavigationView.visibility = View.GONE
@@ -127,21 +142,21 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
 
     override fun onStart() {
         super.onStart()
-//        REF_DATABASE_ROOT.child(NODE_USERS)
-//            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
-//                if (dataSnapshot.exists()) {
-//                    val dataCloud = dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()
-//                    when (dataCloud.alarm) {
-//                        true -> {
-//                            player.start()
-//                        }
-//                        false -> {
-//                            player.seekTo(0)
-//                            player.pause()
-//                        }
-//                    }
-//                }
-//            })
+        connectivityManager.registerConnectionObserver(this)
+        checkNetworks(connectivityManager) { isNetWorkAvailable ->
+            when (isNetWorkAvailable) {
+                false -> snack.show()
+                true -> snack.dismiss()
+            }
+        }
+
+        val alarmHandle = AlarmHandle.Base(this)
+        REF_DATABASE_ROOT.child(NODE_USERS)
+            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    alarmHandle.handle(dataSnapshot)
+                }
+            })
     }
 
     override fun onResume() {
@@ -154,26 +169,9 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         navControllerMain.removeOnDestinationChangedListener(destinationChangedListener)
     }
 
-    private fun observe() {
-
-//        REF_DATABASE_ROOT.child(NODE_USERS)
-//            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
-//                if (dataSnapshot.exists()) {
-//                    val dataCloud = dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()
-//                    if (dataCloud.alarm) {
-//                        player.start()
-//                        val bundle = bundleOf("dataCloud" to dataCloud)
-//                        navControllerMain.navigate(R.id.alarmFragment, bundle)
-//                    }
-//                }
-//            })
-
-
-//       viewModel.user.observe(this){ dataUi ->
-//                if (dataUi.alarm) {
-//                    player.start()
-//                }
-//       }
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterConnectionObserver(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -226,6 +224,18 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+    }
+
+    private fun checkNetworks(
+        connectivityManager: ConnectivityManager,
+        connected: (Boolean) -> Unit
+    ): Boolean {
+        var isNetWorkAvailable = true
+        connectivityManager.isNetworkAvailable.observe(this) {
+            isNetWorkAvailable = it
+            connected(isNetWorkAvailable)
+        }
+        return isNetWorkAvailable
     }
 
 

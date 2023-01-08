@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.HistoryCommentItemRawBinding
-import com.example.eshccheck.databinding.HistoryItemRawBinding
+import com.example.eshccheck.databinding.CommentItemRawBinding
+import com.example.eshccheck.databinding.LocationItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
-import com.example.eshccheck.utils.visible
 
 
 class UserDetailsFragmentAdapter(private val listener: Listener) :
@@ -22,22 +21,27 @@ class UserDetailsFragmentAdapter(private val listener: Listener) :
     override fun onClick(v: View) {
         val user = v.tag as DataUi
         when (v.id) {
-            R.id.btn_location -> listener.toLocation(user)
+            R.id.btn_location_location -> listener.toLocation(user)
+            R.id.btn_location_comment -> listener.toLocation(user)
+            R.id.txt_phone_location -> listener.dial(user)
+            R.id.txt_phone_comment -> listener.dial(user)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
 
-        val simpleBinding = HistoryItemRawBinding
+        val simpleBinding = LocationItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-        simpleBinding.btnLocation.setOnClickListener(this)
+        simpleBinding.btnLocationLocation.setOnClickListener(this)
+        simpleBinding.txtPhoneLocation.setOnClickListener(this)
 
-        val commentBinding = HistoryCommentItemRawBinding
+        val commentBinding = CommentItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-        commentBinding.btnLocation.setOnClickListener(this)
+        commentBinding.btnLocationComment.setOnClickListener(this)
+        commentBinding.txtPhoneComment.setOnClickListener(this)
 
         return when (viewType) {
-            TYPE_SIMPLE -> RecyclerViewHolder.MainHolder(simpleBinding)
+            TYPE_SIMPLE -> RecyclerViewHolder.LocationHolder(simpleBinding)
             else -> RecyclerViewHolder.CommentHolder(commentBinding)
         }
     }
@@ -46,53 +50,52 @@ class UserDetailsFragmentAdapter(private val listener: Listener) :
         val user = getItem(position)
 
         when (holder) {
-            is RecyclerViewHolder.MainHolder -> {
+            is RecyclerViewHolder.LocationHolder -> {
                 holder.binding.apply {
                     root.tag = user
-                    btnLocation.tag = user
+                    btnLocationLocation.tag = user
+                    txtPhoneLocation.tag = user
 
-                    txtId.animation = AnimationUtils
+                    txtIdLocation.animation = AnimationUtils
                         .loadAnimation(
                             holder.binding.root.context,
                             R.anim.fade_transition_animation
                         )
-                    txtId.text = user.id
-                    txtTime.text = user.time
-                    txtName.text = user.fullName
-                    txtPhone.text = user.phoneUser
-                    txtLocationAddress.text = user.locationAddress
-                    if (user.locationFlagOnly) imgAlarm.visible(false) else imgAlarm.visible(true)
+                    txtIdLocation.text = user.id
+                    txtTimeLocation.text = user.time
+                    txtNameLocation.text = user.fullName
+                    txtPhoneLocation.text = user.phoneUser
+                    txtAddressLocation.text = user.locationAddress
                 }
             }
             is RecyclerViewHolder.CommentHolder -> {
-                holder.binding.apply {
+                holder.bindingComment.apply {
                     root.tag = user
-                    btnLocation.tag = user
+                    btnLocationComment.tag = user
+                    txtPhoneComment.tag = user
                     val comment = holder.itemView.context
                         .getString(R.string.comments_template, user.comment)
 
-                    txtId.animation = AnimationUtils
+                    txtIdComment.animation = AnimationUtils
                         .loadAnimation(
-                            holder.binding.root.context,
+                            holder.bindingComment.root.context,
                             R.anim.fade_transition_animation
                         )
-                    txtId.text = user.id
-                    txtTime.text = user.time
-                    txtName.text = user.fullName
-                    txtPhone.text = user.phoneUser
-                    txtLocationAddress.text = user.locationAddress
+                    txtIdComment.text = user.id
+                    txtTimeComment.text = user.time
+                    txtNameComment.text = user.fullName
+                    txtPhoneComment.text = user.phoneUser
+                    txtLocationAddressComment.text = user.locationAddress
                     txtComment.text = comment
-                    if (user.locationFlagOnly) imgAlarm.visible(false) else imgAlarm.visible(true)
                 }
             }
         }
     }
 
     sealed class RecyclerViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        class MainHolder(val binding: HistoryItemRawBinding) : RecyclerViewHolder(binding)
-
-        class CommentHolder(val binding: HistoryCommentItemRawBinding) : RecyclerViewHolder(binding)
+        class LocationHolder(val binding: LocationItemRawBinding) : RecyclerViewHolder(binding)
+        class CommentHolder(val bindingComment: CommentItemRawBinding) :
+            RecyclerViewHolder(bindingComment)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -104,17 +107,15 @@ class UserDetailsFragmentAdapter(private val listener: Listener) :
     }
 
     interface Listener {
+        fun dial(user: DataUi)
         fun toLocation(user: DataUi)
     }
 
     object ItemCallback : DiffUtil.ItemCallback<DataUi>() {
-        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem.time == newItem.time
-        }
+        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi) =
+            oldItem.time == newItem.time
 
-        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi) = oldItem == newItem
     }
 
     companion object {

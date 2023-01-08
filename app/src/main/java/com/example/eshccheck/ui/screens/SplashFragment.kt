@@ -1,6 +1,5 @@
 package com.example.eshccheck.ui.screens
 
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import com.example.eshccheck.data.repository.ToDispatch
 import com.example.eshccheck.databinding.FragmentSplashBinding
 import com.example.eshccheck.ui.BaseFragment
-
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

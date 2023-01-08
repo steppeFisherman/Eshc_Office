@@ -9,6 +9,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/fragmentMain_toolbar"
         style="@style/toolBar"
+        app:title="@string/enter_fullName"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        app:titleTextColor="@color/grey_category_textView"
+        app:titleMarginStart="@dimen/margin_48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

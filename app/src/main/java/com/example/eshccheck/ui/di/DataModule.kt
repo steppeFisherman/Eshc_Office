@@ -8,6 +8,7 @@ import com.example.eshccheck.data.repository.*
 import com.example.eshccheck.data.room.AppRoomDao
 import com.example.eshccheck.data.room.AppRoomDatabase
 import com.example.eshccheck.domain.Repository
+import com.example.eshccheck.utils.SnackBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
+
+    @Provides
+    @Singleton
+    fun provideSnackBuilder(): SnackBuilder = SnackBuilder.Base()
 
     @Provides
     @Singleton

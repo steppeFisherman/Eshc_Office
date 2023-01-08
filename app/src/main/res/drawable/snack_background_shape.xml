@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    Set Margin Here -->
+    <item
+        android:bottom="@dimen/margin_8dp"
+        android:left="@dimen/margin_16dp"
+        android:right="@dimen/margin_16dp"
+        android:top="@dimen/margin_8dp"
+        >
+
+        <!-- Insert your shape here: -->
+        <shape
+            android:shape="rectangle"
+            android:tint="@color/black_textView">
+
+            <!-- Padding for inner text-->
+            <padding
+                android:bottom="@dimen/size_0"
+                android:left="@dimen/size_20"
+                android:right="@dimen/size_20"
+                android:top="@dimen/size_0" />
+        </shape>
+    </item>
+</layer-list>

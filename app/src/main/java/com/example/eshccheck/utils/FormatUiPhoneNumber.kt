@@ -6,7 +6,7 @@ interface FormatUiPhoneNumber {
 
     class Base : FormatUiPhoneNumber {
         override fun modify(initial: String): String {
-            if (initial.length == 12) {
+            if (initial.length >= 12) {
                 val index2 = 2
                 val index6 = 6
                 val index7 = 7

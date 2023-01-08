@@ -15,7 +15,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EshcCheck">
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.EshcCheck"
+        tools:targetApi="m">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -42,9 +44,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".map.MapsActivity" />
-        <activity android:name=".map.MapsActivityAlarmType"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".map.MapsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".map.MapsActivityAlarmType"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <service
             android:name=".service.MyFirebaseMessagingService"

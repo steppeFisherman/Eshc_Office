@@ -22,7 +22,7 @@
 
     <!-- ToolBarStyle -->
     <style name="toolBar">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">@dimen/size_0</item>
         <item name="android:layout_height">@dimen/toolbar_height</item>
         <item name="android:background">@color/main_screen</item>
     </style>
@@ -41,11 +41,23 @@
     </style>
 
     <!-- RecyclerTextViewStyle -->
-    <style name="rv_main_textView">
+    <style name="rv_main_txt_phone">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/size_8</item>
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/grey_category_textView</item>
+        <item name="android:textColor">@color/blue_text_color_selector</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+    </style>
+
+    <style name="rv_main_txt_id">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/size_8</item>
+        <item name="android:layout_marginStart">@dimen/size_8</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/blue_text_color_selector_id</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.CircularBorder" parent="">

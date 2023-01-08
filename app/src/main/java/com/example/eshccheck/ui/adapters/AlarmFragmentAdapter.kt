@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
-import com.example.eshccheck.databinding.HistoryCommentItemRawBinding
-import com.example.eshccheck.databinding.HistoryItemRawBinding
+import com.example.eshccheck.databinding.CommentItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
-import com.example.eshccheck.utils.visible
 
 class AlarmFragmentAdapter(private val listener: Listener) :
     ListAdapter<DataUi, AlarmFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
@@ -19,14 +17,18 @@ class AlarmFragmentAdapter(private val listener: Listener) :
     override fun onClick(v: View) {
         val user = v.tag as DataUi
         when (v.id) {
-            R.id.btn_location -> listener.toLocation(user)
+            R.id.txt_phone_comment -> listener.dial(user)
+            R.id.btn_location_comment -> listener.toLocation(user)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val view = HistoryCommentItemRawBinding
+        val view = CommentItemRawBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-        view.btnLocation.setOnClickListener(this)
+
+        view.txtPhoneComment.setOnClickListener(this)
+        view.btnLocationComment.setOnClickListener(this)
+
         return MainHolder(view)
     }
 
@@ -35,36 +37,33 @@ class AlarmFragmentAdapter(private val listener: Listener) :
 
         holder.binding.apply {
             root.tag = user
-            btnLocation.tag = user
+            txtPhoneComment.tag = user
+            btnLocationComment.tag = user
             val comment = holder.itemView.context
                 .getString(R.string.comments_template, user.comment)
 
-            txtId.animation = AnimationUtils
+            txtIdComment.animation = AnimationUtils
                 .loadAnimation(holder.binding.root.context, R.anim.fade_transition_animation)
-            txtId.text = user.id
-            txtTime.text = user.time
-            txtName.text = user.fullName
-            txtPhone.text = user.phoneUser
+            txtIdComment.text = user.id
+            txtTimeComment.text = user.time
+            txtNameComment.text = user.fullName
+            txtPhoneComment.text = user.phoneUser
             txtComment.text = comment
-            txtLocationAddress.text = user.locationAddress
+            txtLocationAddressComment.text = user.locationAddress
         }
     }
 
-    class MainHolder(val binding: HistoryCommentItemRawBinding) : RecyclerView.ViewHolder(binding.root) {
-        val imgAlarm = binding.imgAlarm.visible(true)
-    }
+    class MainHolder(val binding: CommentItemRawBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface Listener {
+        fun dial(user: DataUi)
         fun toLocation(user: DataUi)
     }
 
     object ItemCallback : DiffUtil.ItemCallback<DataUi>() {
-        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem.time == newItem.time
-        }
+        override fun areItemsTheSame(oldItem: DataUi, newItem: DataUi) =
+            oldItem.time == newItem.time
 
-        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: DataUi, newItem: DataUi) = oldItem == newItem
     }
 }

@@ -8,7 +8,7 @@ import com.example.eshccheck.data.room.AppRoomDao
 import com.example.eshccheck.domain.model.ResultUser
 import com.example.eshccheck.utils.NODE_USERS
 import com.example.eshccheck.utils.REF_DATABASE_ROOT
-import com.example.eshccheck.utils.SnapShotChildListener
+import com.example.eshccheck.utils.listeners.SnapShotChildListener
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -62,7 +62,9 @@ interface CloudSource {
                     if (dataSnapshot.exists()) {
                         val dataCloud = dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()
                         val dataCache = mapperCloudToCache.mapCloudToCache(dataCloud)
-                        dispatchers.launchIO(scope = scope) { appDao.insertItem(dataCache) }
+                        if (dataCache.comment.isNotBlank()) {
+                            dispatchers.launchIO(scope = scope) { appDao.insertItem(dataCache) }
+                        }
                     }
                 })
         }

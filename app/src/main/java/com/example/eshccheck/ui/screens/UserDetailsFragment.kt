@@ -1,10 +1,12 @@
 package com.example.eshccheck.ui.screens
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -41,8 +43,15 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding>() {
         vm.fetchUserById(user.id)
 
         val adapter = UserDetailsFragmentAdapter(object : UserDetailsFragmentAdapter.Listener {
+
+            override fun dial(user: DataUi) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${user.phoneOperator}")
+                ContextCompat.startActivity(requireContext(), intent, null)
+            }
+
             override fun toLocation(user: DataUi) {
-                val intent = Intent(view.context, MapsActivity::class.java)
+                val intent = Intent(requireContext(), MapsActivity::class.java)
                 intent.putExtra("user", user)
                 startActivity(intent)
             }

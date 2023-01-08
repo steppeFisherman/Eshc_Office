@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.widget.addTextChangedListener
 import com.example.eshccheck.R
 import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMapsAlarmTypeBinding
@@ -19,7 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
@@ -31,6 +29,7 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var user: DataCloud
     private lateinit var alarmHandle: AlarmHandle
     private lateinit var player: MediaPlayer
+    private val commentHandle = AlarmCommentUpdate.Base(DateTimeFormat.Base())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +48,11 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
         geoCoder = Geocoder(this, Locale.getDefault())
         val bundle = intent.extras?.get("dataCloud")
 
-
         if (bundle != null) user = bundle as DataCloud
         binding.txtId.text = user.id
         binding.txtTime.text = user.time
         binding.txtName.text = user.fullName
-        binding.txtPhone.text = user.phoneUser
+        binding.txtPhoneMapAlarm.text = user.phoneUser
         binding.btnSoundOff.setOnClickListener {
             player.seekTo(0)
             player.pause()
@@ -63,17 +61,15 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
 
         binding.editTextComment.addTextChangedListener(TextWatcher { textChanged ->
             if (textChanged?.isNotBlank() == true) {
+                player.seekTo(0)
+                player.pause()
+                binding.btnSoundOff.isEnabled = false
                 binding.btnSaveComments.isEnabled = true
             } else binding.btnSaveComments.isEnabled = false
         })
 
         binding.btnSaveComments.setOnClickListener {
-            val map = mutableMapOf<String, Any>()
-            map[CHILD_ALARM] = false
-            map[CHILD_LOCATION_FLAG_ONLY] = false
-            map[CHILD_COMMENT] = binding.editTextComment.text.toString()
-            REF_DATABASE_ROOT.child(NODE_USERS).child(user.id).updateChildren(map)
-            onBackPressed()
+            saveComment(comment = binding.editTextComment.text.toString())
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -116,18 +112,36 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMarkerClick(p0: Marker) = false
 
+    private fun saveComment(comment: String) {
+        commentHandle.update(comment = comment) { mapToUpdate ->
+            REF_DATABASE_ROOT.child(NODE_USERS).child(user.id).updateChildren(mapToUpdate)
+            super.onBackPressed()
+        }
+    }
+
     override fun onBackPressed() {
-        if (binding.editTextComment.text?.isBlank() == true){
+        if (binding.editTextComment.text?.isBlank() == true) {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.comments_not_added))
-                .setMessage("Добавить?")
+                .setMessage(getString(R.string.add))
                 .setPositiveButton(R.string.yes) { _, _ ->
                     binding.editTextComment.requestFocus()
                 }
                 .create()
                 .show()
-        } else super.onBackPressed()
+        } else if (binding.btnSaveComments.isEnabled) {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.comments_not_saved))
+                .setMessage(getString(R.string.save))
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    saveComment(comment = binding.editTextComment.text.toString())
+                }
+                .setNegativeButton(R.string.no) { _, _ ->
+                    binding.editTextComment.append("")
+                }
+                .create()
+                .show()
+        }
     }
-
 }
 
