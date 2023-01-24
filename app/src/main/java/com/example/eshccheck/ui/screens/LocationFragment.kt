@@ -33,9 +33,9 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+
         binding.fragmentLocationToolbar.setupWithNavController(findNavController())
-        binding.fragmentLocationToolbar.title = resources.getString(R.string.location)
+        snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
 
         val adapter = LocationFragmentAdapter(object : LocationFragmentAdapter.Listener {
 

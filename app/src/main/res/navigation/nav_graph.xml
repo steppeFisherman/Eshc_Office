@@ -9,7 +9,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.eshccheck.ui.screens.MainFragment"
         android:label=""
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment"
@@ -34,16 +34,21 @@
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.eshccheck.ui.screens.LocationFragment"
-        android:label=""
+        android:label="@string/location"
         tools:layout="@layout/fragment_location" />
     <fragment
         android:id="@+id/alarmFragment"
         android:name="com.example.eshccheck.ui.screens.AlarmFragment"
-        android:label=""
-        tools:layout="@layout/fragment_alarm"/>
+        android:label="@string/alarms"
+        tools:layout="@layout/fragment_alarm" />
     <fragment
         android:id="@+id/userDetailsFragment"
         android:name="com.example.eshccheck.ui.screens.UserDetailsFragment"
         android:label=""
         tools:layout="@layout/fragment_user_details" />
+    <fragment
+        android:id="@+id/lateUsersFragment"
+        android:name="com.example.eshccheck.ui.screens.LateUsersFragment"
+        android:label="@string/late"
+        tools:layout="@layout/fragment_late_users" />
 </navigation>

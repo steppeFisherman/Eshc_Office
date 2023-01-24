@@ -17,28 +17,25 @@ class MainFragmentViewModel @Inject constructor(
     private val mapper: MapDomainToUi
 ) : ViewModel() {
 
-    private var mUsers = MutableLiveData<List<DataUi>>()
+    private var mAllUsers = MutableLiveData<List<DataUi>>()
     private var mUsersAlarmed = MutableLiveData<List<DataUi>>()
     private var mError = MutableLiveData<ErrorType>()
-    private var mLoading = MutableLiveData<ResultUser.Loading>()
 
-    val users: LiveData<List<DataUi>>
-        get() = mUsers
+    val allUsers: LiveData<List<DataUi>>
+        get() = mAllUsers
     val usersAlarmed: LiveData<List<DataUi>>
         get() = mUsersAlarmed
     val error: LiveData<ErrorType>
         get() = mError
-    val loading: LiveData<ResultUser.Loading>
-        get() = mLoading
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
-    private fun fetchAllUsers() {
+     fun fetchAllUsers() {
         viewModelScope.launch(exceptionHandler) {
             when (val result = fetchUseCase.allUsers()) {
                 is ResultUser.SuccessList -> {
                     val users = result.users
-                    mUsers.value = users.map { dataDomain ->
+                    mAllUsers.value = users.map { dataDomain ->
                         mapper.mapDomainToUi(dataDomain)
                     }
                 }

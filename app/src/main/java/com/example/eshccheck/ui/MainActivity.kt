@@ -2,7 +2,6 @@ package com.example.eshccheck.ui
 
 import android.Manifest
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -17,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -24,11 +24,12 @@ import com.example.eshccheck.R
 import com.example.eshccheck.databinding.ActivityMainBinding
 import com.example.eshccheck.ui.app.App
 import com.example.eshccheck.ui.screens.MainFragment
+import com.example.eshccheck.ui.screens.MainFragmentViewModel
 import com.example.eshccheck.utils.AlarmHandle
-import com.example.eshccheck.utils.NODE_USERS
-import com.example.eshccheck.utils.REF_DATABASE_ROOT
 import com.example.eshccheck.utils.SnackBuilder
 import com.example.eshccheck.utils.connectivity.ConnectivityManager
+import com.example.eshccheck.utils.firebase.NODE_USERS
+import com.example.eshccheck.utils.firebase.REF_DATABASE_ROOT
 import com.example.eshccheck.utils.firebase.UsersService
 import com.example.eshccheck.utils.listeners.SnapShotChildListener
 import com.google.android.gms.tasks.OnCompleteListener
@@ -55,16 +56,11 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var snack: Snackbar
 
-    private lateinit var preferences: SharedPreferences
-    private var firstTimeUser = false
-    private val viewModel by viewModels<MainActivityViewModel>()
-
     @RequiresApi(Build.VERSION_CODES.M)
     private val requestLocationPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),   // contract for requesting more than 1 permission
         ::onGotLocationPermissionsResult
     )
-
 
     private val usersService: UsersService
         get() = (applicationContext as App).usersService
@@ -82,7 +78,6 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
         WindowInsetsControllerCompat(window, window.decorView)
             .isAppearanceLightStatusBars = true
         setContentView(binding.root)
-
         requestLocationPermissionsLauncher.launch(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,

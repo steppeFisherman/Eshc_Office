@@ -20,4 +20,10 @@
         android:title=""
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/lateUsersFragment"
+        android:icon="@drawable/ic_late"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
 </menu>

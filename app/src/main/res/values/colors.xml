@@ -12,6 +12,7 @@
     <color name="bottomNav_background">#F0F0F0</color>
     <color name="grey_bottomNav_icon">#7B7B7B</color>
     <color name="red">#FD3A69</color>
+    <color name="light_red">#FFEBEE</color>
     <color name="transparent">#000000FF</color>
     <color name="black_textView">#010035</color>
     <color name="stroke_color">#222831</color>

@@ -33,9 +33,8 @@ class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragmentAlarmToolbar.setupWithNavController(findNavController())
-        binding.fragmentAlarmToolbar.title = resources.getString(R.string.alarms)
 
+        binding.fragmentAlarmToolbar.setupWithNavController(findNavController())
         snack = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
 
         val adapter = AlarmFragmentAdapter(object : AlarmFragmentAdapter.Listener {
@@ -75,3 +74,5 @@ class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
         }
     }
 }
+
+

@@ -4,18 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshccheck.R
 import com.example.eshccheck.databinding.MainRvItemRawBinding
 import com.example.eshccheck.ui.model.DataUi
-import java.util.*
 
 class MainFragmentAdapter(private val listener: Listener) :
-    ListAdapter<DataUi, MainFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener{
+    ListAdapter<DataUi, MainFragmentAdapter.MainHolder>(ItemCallback), View.OnClickListener {
 
     override fun onClick(v: View) {
         val user = v.tag as DataUi

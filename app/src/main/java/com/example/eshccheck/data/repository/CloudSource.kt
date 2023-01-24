@@ -6,8 +6,8 @@ import com.example.eshccheck.data.model.MapCloudToDomain
 import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.data.room.AppRoomDao
 import com.example.eshccheck.domain.model.ResultUser
-import com.example.eshccheck.utils.NODE_USERS
-import com.example.eshccheck.utils.REF_DATABASE_ROOT
+import com.example.eshccheck.utils.firebase.NODE_USERS
+import com.example.eshccheck.utils.firebase.REF_DATABASE_ROOT
 import com.example.eshccheck.utils.listeners.SnapShotChildListener
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -33,11 +33,10 @@ interface CloudSource {
         private val scope = CoroutineScope(Job() + exceptionHandler)
 
         private lateinit var result: ResultUser
-        private lateinit var resultUser: ResultUser
 
         override suspend fun allUsers(): ResultUser {
             REF_DATABASE_ROOT.child(NODE_USERS).get()
-                .addOnCompleteListener() { task ->
+                .addOnCompleteListener { task ->
                     result = if (task.isSuccessful) {
                         val dataCloudList = task.result.children.map { dataSnapshot ->
                             dataSnapshot.getValue(DataCloud::class.java) ?: DataCloud()

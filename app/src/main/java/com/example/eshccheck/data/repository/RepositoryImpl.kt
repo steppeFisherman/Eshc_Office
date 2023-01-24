@@ -1,6 +1,5 @@
 package com.example.eshccheck.data.repository
 
-
 import com.example.eshccheck.domain.Repository
 import com.example.eshccheck.domain.model.ResultUser
 import javax.inject.Inject
@@ -38,6 +37,12 @@ class RepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             exceptionHandle.handle(exception = e)
         }
+
+    override val fetchLate: ResultUser = try {
+        cacheSource.fetchLate()
+    } catch (e: Exception) {
+        exceptionHandle.handle(exception = e)
+    }
 
     override fun fetchUserById(id: String): ResultUser = try {
         cacheSource.fetchUserById(id = id)

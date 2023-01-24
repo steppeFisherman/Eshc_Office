@@ -10,8 +10,8 @@ interface CacheSource {
 
     fun fetchLocation(): ResultUser
     fun fetchAlarmed(): ResultUser
+    fun fetchLate(): ResultUser
     fun fetchUserById(id: String): ResultUser
-//    suspend fun fetchCachedByDate(timeStart: Long, timeEnd: Long): ResultUser
 
     class Base @Inject constructor(
         private val appDao: AppRoomDao,
@@ -21,7 +21,7 @@ interface CacheSource {
     ) : CacheSource {
 
         override fun fetchLocation(): ResultUser = try {
-            val users = appDao.fetchAllUsers(locationFlagOnly = true, false)
+            val users = appDao.fetchAllUsers(locationFlagOnly = true, alarm = false)
             val domain = users.map { listDataCache ->
                 listDataCache.map {
                     mapperCacheToDomain.mapCacheToDomain(it)
@@ -33,7 +33,18 @@ interface CacheSource {
         }
 
         override fun fetchAlarmed(): ResultUser = try {
-            val users = appDao.fetchAllUsers(locationFlagOnly = false, false)
+            val users = appDao.fetchAllUsers(locationFlagOnly = false, alarm = false)
+            val domain = users.map { listDataCache ->
+                listDataCache.map { mapperCacheToDomain.mapCacheToDomain(it) }
+            }
+            ResultUser.SuccessLiveData(domain)
+        } catch (e: Exception) {
+            exceptionHandle.handle(exception = e)
+        }
+
+        override fun fetchLate(): ResultUser = try {
+            val users =
+                appDao.fetchAllUsers(locationFlagOnly = true, alarm = false)
             val domain = users.map { listDataCache ->
                 listDataCache.map { mapperCacheToDomain.mapCacheToDomain(it) }
             }
@@ -51,13 +62,5 @@ interface CacheSource {
         } catch (e: Exception) {
             exceptionHandle.handle(exception = e)
         }
-
-//        override suspend fun fetchCachedByDate(timeStart: Long, timeEnd: Long): ResultUser =try {
-//            val users = appDao.fetchUsersByDate(timeStart, timeEnd)
-//            val domain = users.map { mapperCacheToDomain.mapCacheToDomain(it) }
-//            ResultUser.SuccessList(domain)
-//        } catch (e: Exception) {
-//            exceptionHandle.handle(exception = e)
-//        }
     }
 }

@@ -40,6 +40,19 @@
         <item name="android:background">@drawable/main_rv_item_shape</item>
     </style>
 
+    <!-- RecyclerContainerStyle -->
+    <style name="rv_late_user_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/size_12</item>
+        <item name="android:layout_marginEnd">@dimen/size_12</item>
+        <item name="android:layout_marginTop">@dimen/size_4</item>
+        <item name="android:paddingTop">@dimen/size_8</item>
+        <item name="android:paddingBottom">@dimen/size_8</item>
+        <item name="android:background">@drawable/late_user_rv_item_shape</item>
+    </style>
+
+
     <!-- RecyclerTextViewStyle -->
     <style name="rv_main_txt_phone">
         <item name="android:layout_width">wrap_content</item>

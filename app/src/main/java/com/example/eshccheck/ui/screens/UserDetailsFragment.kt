@@ -14,7 +14,6 @@ import com.example.eshccheck.R
 import com.example.eshccheck.databinding.FragmentUserDetailsBinding
 import com.example.eshccheck.map.MapsActivity
 import com.example.eshccheck.ui.BaseFragment
-import com.example.eshccheck.ui.adapters.AlarmFragmentAdapter
 import com.example.eshccheck.ui.adapters.UserDetailsFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
 import com.example.eshccheck.utils.snackLong

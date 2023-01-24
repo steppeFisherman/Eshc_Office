@@ -11,36 +11,38 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@Suppress("UNCHECKED_CAST")
 @HiltViewModel
-class UserDetailsViewModel @Inject constructor(
+class LateUsersFragmentViewModel @Inject constructor(
     private val fetchUseCase: FetchUseCase,
     private val mapper: MapDomainToUi
 ) : ViewModel() {
 
-    private var mUserDetails = MutableLiveData<List<DataUi>>()
+    private var mUsers = MutableLiveData<List<DataUi>>()
     private var mError = MutableLiveData<ErrorType>()
 
-    val userDetails: LiveData<List<DataUi>>
-        get() = mUserDetails
+    val users: LiveData<List<DataUi>>
+        get() = mUsers
     val error: LiveData<ErrorType>
         get() = mError
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
-    fun fetchUserById(id: String) {
+    fun fetchData() {
         viewModelScope.launch(exceptionHandler) {
-            when (val result = fetchUseCase.fetchUserById(id)) {
+            when (val result = fetchUseCase.fetchLate()) {
                 is ResultUser.SuccessLiveData -> {
-                    mUserDetails = result.usersLiveData.map { list ->
-                        list.map { dataDomain ->
-                            mapper.mapDomainToUi(dataDomain)
-                        }
+                    mUsers = result.usersLiveData.map { list ->
+                        list.map { dataDomain -> mapper.mapDomainToUi(dataDomain) }
                     } as MutableLiveData<List<DataUi>>
                 }
+
                 is ResultUser.Fail -> mError.value = result.errorType
                 else -> {}
             }
         }
+    }
+
+    init {
+//        fetchData()
     }
 }

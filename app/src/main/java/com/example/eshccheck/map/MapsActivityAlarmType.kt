@@ -11,6 +11,8 @@ import com.example.eshccheck.R
 import com.example.eshccheck.data.model.cloudModel.DataCloud
 import com.example.eshccheck.databinding.ActivityMapsAlarmTypeBinding
 import com.example.eshccheck.utils.*
+import com.example.eshccheck.utils.firebase.NODE_USERS
+import com.example.eshccheck.utils.firebase.REF_DATABASE_ROOT
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,9 +29,9 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var mMap: GoogleMap
     private lateinit var geoCoder: Geocoder
     private lateinit var user: DataCloud
-    private lateinit var alarmHandle: AlarmHandle
     private lateinit var player: MediaPlayer
     private val commentHandle = AlarmCommentUpdate.Base(DateTimeFormat.Base())
+    private val formatUiPhoneNumber = FormatUiPhoneNumber.ToUi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,7 @@ class MapsActivityAlarmType : AppCompatActivity(), OnMapReadyCallback,
         binding.txtId.text = user.id
         binding.txtTime.text = user.time
         binding.txtName.text = user.fullName
-        binding.txtPhoneMapAlarm.text = user.phoneUser
+        binding.txtPhoneMapAlarm.text = formatUiPhoneNumber.modify(user.phoneUser)
         binding.btnSoundOff.setOnClickListener {
             player.seekTo(0)
             player.pause()

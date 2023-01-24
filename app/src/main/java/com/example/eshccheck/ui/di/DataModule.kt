@@ -8,6 +8,7 @@ import com.example.eshccheck.data.repository.*
 import com.example.eshccheck.data.room.AppRoomDao
 import com.example.eshccheck.data.room.AppRoomDatabase
 import com.example.eshccheck.domain.Repository
+import com.example.eshccheck.ui.model.MapDomainToUi
 import com.example.eshccheck.utils.SnackBuilder
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,19 +32,19 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideMapCacheToDomain(): MapCacheToDomain =
-        MapCacheToDomain.Base()
+    fun provideMapCacheToDomain(): MapCacheToDomain = MapCacheToDomain.Base()
 
     @Provides
     @Singleton
-    fun provideMapCloudToCache(): MapCloudToCache =
-        MapCloudToCache.Base()
+    fun provideMapCloudToCache(): MapCloudToCache = MapCloudToCache.Base()
 
     @Provides
     @Singleton
-    fun provideMapCloudToDomain(): MapCloudToDomain =
-        MapCloudToDomain.Base()
+    fun provideMapCloudToDomain(): MapCloudToDomain = MapCloudToDomain.Base()
 
+    @Provides
+    @Singleton
+    fun provideMapDomainToUi(): MapDomainToUi = MapDomainToUi.Base()
 
     @Provides
     fun provideDispatchers(): ToDispatch = ToDispatch.Base()

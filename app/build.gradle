@@ -102,6 +102,8 @@ dependencies {
     //GoogleMaps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation "com.google.android.gms:play-services-location:21.0.1"
+    //Joda-Time
+    implementation 'net.danlew:android.joda:2.12.1.1'
 }
 
 kapt {

@@ -7,23 +7,35 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.eshccheck.R
+import com.example.eshccheck.data.model.MapCloudToDomain
 import com.example.eshccheck.databinding.FragmentMainBinding
 import com.example.eshccheck.ui.BaseFragment
 import com.example.eshccheck.ui.MainActivity
 import com.example.eshccheck.ui.adapters.MainFragmentAdapter
 import com.example.eshccheck.ui.model.DataUi
+import com.example.eshccheck.ui.model.MapDomainToUi
 import com.example.eshccheck.utils.SearchService
+import com.example.eshccheck.utils.firebase.NODE_USERS
+import com.example.eshccheck.utils.firebase.REF_DATABASE_ROOT
 import com.example.eshccheck.utils.listeners.SearchViewListener
+import com.example.eshccheck.utils.listeners.SnapShotListener
 import com.example.eshccheck.utils.snackLong
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
-    private val vm by viewModels<MainFragmentViewModel>()
+    @Inject
+    lateinit var mapperCloudToDomain: MapCloudToDomain
+
+    @Inject
+    lateinit var mapperDomainToUi: MapDomainToUi
+
+    private val vm by activityViewModels<MainFragmentViewModel>()
     private lateinit var mAdapter: MainFragmentAdapter
     private lateinit var mSearchView: SearchView
     private var mList = listOf<DataUi>()
@@ -56,7 +68,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
         binding.rvFragmentMain.adapter = mAdapter
 
-        vm.users.observe(viewLifecycleOwner) { listDataUi ->
+        vm.allUsers.observe(viewLifecycleOwner) { listDataUi ->
             mList = listDataUi
             mAdapter.submitList(listDataUi)
         }
@@ -65,7 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             when (errorType.ordinal) {
                 0 -> view.snackLong(R.string.no_connection_exception_message)
                 1 -> view.snackLong(R.string.database_exception_message)
-                2 -> view.snackLong(R.string.http_exception_message)
+//                2 -> view.snackLong(R.string.http_exception_message)
                 3 -> view.snackLong(R.string.user_not_registered_exception_message)
                 4 -> view.snackLong(R.string.database_exception_message)
                 5 -> view.snackLong(R.string.generic_exception_message)
@@ -75,6 +87,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         searchService.mListFilteredLiveData.observe(viewLifecycleOwner) {
             mAdapter.submitList(it)
         }
+
+        REF_DATABASE_ROOT.child(NODE_USERS)
+            .addValueEventListener(SnapShotListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    vm.fetchAllUsers()
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

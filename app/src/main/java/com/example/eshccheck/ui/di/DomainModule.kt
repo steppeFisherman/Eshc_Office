@@ -16,6 +16,6 @@ class DomainModule {
     fun provideFetchUseCase(repository: Repository): FetchUseCase =
         FetchUseCase.Base(repository = repository)
 
-    @Provides
-    fun provideMapDomainToUi(): MapDomainToUi = MapDomainToUi.Base()
+//    @Provides
+//    fun provideMapDomainToUi(): MapDomainToUi = MapDomainToUi.Base()
 }

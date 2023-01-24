@@ -2,7 +2,6 @@ package com.example.eshccheck.ui.model
 
 import com.example.eshccheck.domain.model.DataDomain
 import com.example.eshccheck.utils.FormatUiPhoneNumber
-import java.text.DateFormat
 
 interface MapDomainToUi {
 
@@ -10,7 +9,7 @@ interface MapDomainToUi {
 
     class Base : MapDomainToUi {
 
-        private val formatUiPhoneNumber = FormatUiPhoneNumber.Base()
+        private val formatUiPhoneNumber = FormatUiPhoneNumber.ToUi()
 
         override fun mapDomainToUi(dataDomain: DataDomain): DataUi =
             DataUi(
@@ -32,8 +31,6 @@ interface MapDomainToUi {
                 locationFlagOnly = dataDomain.locationFlagOnly,
                 comment = dataDomain.comment
             )
-
-        private fun longToDate(timeLong: Long) =
-            DateFormat.getDateTimeInstance().format(timeLong)
     }
 }
+

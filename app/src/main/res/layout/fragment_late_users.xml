@@ -4,29 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.MainFragment">
+    tools:context=".ui.screens.LateUsersFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragmentMain_toolbar"
+        android:id="@+id/fragmentLate_toolbar"
         style="@style/toolBar"
-        app:title="@string/enter_name_phone"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        app:titleTextColor="@color/grey_category_textView"
-        app:titleMarginStart="@dimen/margin_48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        app:menu="@menu/fragment_main_toolbar_menu" />
+        app:menu="@menu/fragment_location_toolbar_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFragmentMain"
+        android:id="@+id/fragmentLate_rv"
         android:layout_width="@dimen/size_0"
         android:layout_height="@dimen/size_0"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentMain_toolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentLate_toolbar" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/fragmentLate_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/deep_sky_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

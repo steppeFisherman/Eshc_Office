@@ -4,7 +4,7 @@ interface FormatUiPhoneNumber {
 
     fun modify(initial: String): String
 
-    class Base : FormatUiPhoneNumber {
+    class ToUi : FormatUiPhoneNumber {
         override fun modify(initial: String): String {
             if (initial.length >= 12) {
                 val index2 = 2
@@ -25,6 +25,18 @@ interface FormatUiPhoneNumber {
                 return String(charArray)
 
             } else return initial
+        }
+    }
+
+    class FromUi : FormatUiPhoneNumber {
+        override fun modify(initial: String): String {
+            return if (initial.length >= 17) {
+                val charList = initial.toCharArray().toMutableList()
+                charList.removeAll(listOf('(', ')', ' '))
+                val charArray = charList.toCharArray()
+                charArray.joinToString("")
+                String(charArray)
+            } else initial
         }
     }
 }

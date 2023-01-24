@@ -9,6 +9,7 @@ interface FetchUseCase {
     suspend fun listenUsers()
     fun fetchLocation(): ResultUser
     fun fetchAlarmed(): ResultUser
+    fun fetchLate(): ResultUser
     fun fetchUserById(id: String): ResultUser
 
     class Base @Inject constructor(private val repository: Repository) : FetchUseCase {
@@ -16,6 +17,7 @@ interface FetchUseCase {
         override suspend fun listenUsers() = repository.listenUsers()
         override fun fetchLocation(): ResultUser = repository.usersLocation
         override fun fetchAlarmed(): ResultUser = repository.fetchAlarmed
+        override fun fetchLate(): ResultUser = repository.fetchLate
         override fun fetchUserById(id: String): ResultUser = repository.fetchUserById(id = id)
     }
 }
