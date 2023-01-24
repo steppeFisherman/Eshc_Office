@@ -10,10 +10,9 @@ _Стэк:_
 
 __Firebase, Room, Hilt, Navigation Component, MVVM, LiveData, Kotlin Coroutines, ViewBinding, Clean Architecture, Google Maps__     
 ___
-![Screenshot_20230124_173553](https://user-images.githubusercontent.com/26350957/214325518-2cbb2a47-015a-4bf5-a37e-3dcbc49543f8.png)
-![InkedScreenshot_20230124_173812](https://user-images.githubusercontent.com/26350957/214327931-2ece84c9-44c2-4061-9515-cc657b052a01.jpg)
-![InkedScreenshot_20230124_173902](https://user-images.githubusercontent.com/26350957/214327946-17e0446b-9bd2-409e-9e37-60e677828029.jpg)
-![Screenshot_20230124_173812](https://user-images.githubusercontent.com/26350957/214328047-04289bea-0e4d-41a9-92e7-57325899c0e3.png)
-![Screenshot_20230124_173845](https://user-images.githubusercontent.com/26350957/214328068-4de48f9e-f836-46ac-a701-c0cbd9003f1a.png)
+![Screenshot_20230124_173553](https://user-images.githubusercontent.com/26350957/214329233-3322bdb0-2aa6-48a7-b068-aec1b1aa4dc2.png)
+![InkedScreenshot_20230124_173812](https://user-images.githubusercontent.com/26350957/214329293-1c5afd9f-e3b8-4174-9eee-698a9d8bf534.jpg)
+![InkedScreenshot_20230124_173902](https://user-images.githubusercontent.com/26350957/214329370-79d3e5bd-c746-432c-8483-e93a2d299198.jpg)
+![Screenshot_20230124_173845](https://user-images.githubusercontent.com/26350957/214329440-9f1c67f3-1c85-440f-b286-7e9301b6897c.png)
 __
       
