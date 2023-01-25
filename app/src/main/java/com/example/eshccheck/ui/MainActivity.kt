@@ -11,12 +11,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -24,14 +22,13 @@ import com.example.eshccheck.R
 import com.example.eshccheck.databinding.ActivityMainBinding
 import com.example.eshccheck.ui.app.App
 import com.example.eshccheck.ui.screens.MainFragment
-import com.example.eshccheck.ui.screens.MainFragmentViewModel
 import com.example.eshccheck.utils.AlarmHandle
 import com.example.eshccheck.utils.SnackBuilder
 import com.example.eshccheck.utils.connectivity.ConnectivityManager
 import com.example.eshccheck.utils.firebase.NODE_USERS
 import com.example.eshccheck.utils.firebase.REF_DATABASE_ROOT
 import com.example.eshccheck.utils.firebase.UsersService
-import com.example.eshccheck.utils.listeners.SnapShotChildListener
+import com.example.eshccheck.utils.listeners.SnapShotListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -147,7 +144,7 @@ class MainActivity : AppCompatActivity(), MainFragment.PermissionHandle {
 
         val alarmHandle = AlarmHandle.Base(this)
         REF_DATABASE_ROOT.child(NODE_USERS)
-            .addChildEventListener(SnapShotChildListener { dataSnapshot ->
+            .addValueEventListener(SnapShotListener { dataSnapshot ->
                 if (dataSnapshot.exists()) {
                     alarmHandle.handle(dataSnapshot)
                 }
