@@ -41,7 +41,7 @@ class AlarmFragment : BaseFragment<FragmentAlarmBinding>() {
 
             override fun dial(user: DataUi) {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${user.phoneOperator}")
+                intent.data = Uri.parse("tel:${user.phoneUser}")
                 ContextCompat.startActivity(requireContext(), intent, null)
             }
 
